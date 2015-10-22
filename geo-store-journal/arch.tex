@@ -56,34 +56,25 @@ system.
 %Table~\ref{tab-prefix} shows the namespace prefixes used in this
 %article.
 
-\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
+%\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
 
-\begin{lstlisting}[caption={An XML data excerpt from the OpenStreetMap project.},
-                  language=SQL,
-                  label={list2},
-				  frame=single]
-- <node id="738330640" lat="34.1135498" lon="-118.1235345" user="AM909" uid="82317"
- visible="true" version="1" changeset="4737707"  timestamp="2010-05-18T11:26:40Z">
+\begin{lstlisting}[caption={An XML data excerpt from the OpenStreetMap project.}, label={list2}]
+<node id="738330640" lat="34.1135498" lon="-118.1235345" user="AM909" uid="82317" visible="true" version="1" changeset="4737707" timestamp="2010-05-18T11:26:40Z">
   <tag k="amenity" v="restaurant" />
   <tag k="cuisine" v="american" />
   <tag k="name" v="Colonial Kitchen" />
   <tag k="source" v="usgs_imagery;survey;image" />
   <tag k="source_ref" v="AM909_DSCU3253" />
-  </node>
+</node>
 \end{lstlisting}
 
 
-\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
-
-\begin{lstlisting}[caption={The RDF representation of the restaurant described in Listing~\ref{list2}.},
-                  language=SQL,
-                   label={list3},
-                   frame=single]
+\begin{lstlisting}[caption={The RDF representation of the restaurant described in Listing~\ref{list2}.}, label={list3}]
 ...
-gstore:Point738330640   gml:amenity     "restaurant"
-gstore:Point738330640   gml:cuisine     "american"
-gstore:Point738330640   gml:name        "Colonial Kitchen"
-gstore:Point738330640   gml:pos         "34.1135498  -118.1235345"
+gstore:Point738330640 gml:amenity "restaurant"
+gstore:Point738330640 gml:cuisine "american"
+gstore:Point738330640 gml:name    "Colonial Kitchen"
+gstore:Point738330640 gml:pos     "34.1135498 -118.1235345"
 ...
 \end{lstlisting}
 
@@ -163,21 +154,17 @@ referred point along the Hilbert space-filling curve.
 
 %\newpage
 
-\begin{lstlisting}[caption={The GeoHilbert representation of the restaurant described in Listing~\ref{list2}.},
-                  %language=SQL,
-                   label={list4},
-                   frame=single]
+\begin{lstlisting}[caption={The GeoHilbert representation of the restaurant described in Listing~\ref{list2}.}, label={list4}]
 ...
-gstore:HilbertMapping  gstore:StartPoint   "32.3372200  -114.1369000"
-gstore:HilbertMapping  gstore:Order        "10"
-gstore:HilbertMapping  gstore:Orientation  "Up Left"
+gstore:HilbertMapping gstore:StartPoint  "32.3372200 -114.1369000"
+gstore:HilbertMapping gstore:Order       "10"
+gstore:HilbertMapping gstore:Orientation "Up Left"
 ...
-...
-gstore:Point738330640   gml:amenity     "restaurant"
-gstore:Point738330640   gml:cuisine     "american"
-gstore:Point738330640   gml:name        "Colonial Kitchen"
-gstore:Point738330640   gml:pos         "34.1135498  -118.1235345"
-gstore:Point738330640   gstore:Pos      "208083"
+gstore:Point738330640 gml:amenity "restaurant"
+gstore:Point738330640 gml:cuisine "american"
+gstore:Point738330640 gml:name    "Colonial Kitchen"
+gstore:Point738330640 gml:pos     "34.1135498  -118.1235345"
+gstore:Point738330640 gstore:Pos  "208083"
 ...
 \end{lstlisting}
 

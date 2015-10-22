@@ -23,17 +23,15 @@ per gallon.
 
 %\newpage
 
-\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
-
-\begin{lstlisting}[caption={The sample range query in Geo-Store (use case 1).},
-                   label={list5},frame=single]
+\begin{lstlisting}[caption={The sample range query in Geo-Store (use case 1).}, label={list5}]
 SELECT ?coordinates
-WHERE { ?point  a           "Gas Station" .
-        ?point  gml:pos     ?coordinates .
-        FILTER  (gstore:range(?point, CURRENT_LOCATION, 10, "mile"))
-        ?point  gstore:gaspriceUSD       ?price .
-        FILTER  (?price < 3.00)
-      }
+WHERE {
+  ?point a "Gas Station" .
+  ?point gml:pos ?coordinates .
+  FILTER (gstore:range(?point, CURRENT_LOCATION, 10, "mile"))
+  ?point gstore:gaspriceUSD ?price .
+  FILTER (?price < 3.00)
+}
 \end{lstlisting}
 
 \begin{figure*}[!h]
@@ -90,18 +88,17 @@ stations to the query point with a listed gas price cheaper than
 \$3.00 per gallon.
 
 
-\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
+%\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
 
-\begin{lstlisting}[caption={The sample $k$ nearest neighbor query in Geo-Store (use case 2).},
-                   label={list6},
-				   frame=single]
+\begin{lstlisting}[caption={The sample $k$ nearest neighbor query in Geo-Store (use case 2).}, label={list6}]
 SELECT ?coordinates
-WHERE { ?point  a           "Gas Station" .
-        ?point  gml:pos     ?coordinates .
-        FILTER  (gstore:NN(?point, CURRENT_LOCATION, k))
-        ?point  gstore:gaspriceUSD       ?price .
-        FILTER  (?price < 3.00)
-      }
+WHERE {
+  ?point a "Gas Station" .
+  ?point gml:pos ?coordinates .
+  FILTER (gstore:NN(?point, CURRENT_LOCATION, k))
+  ?point gstore:gaspriceUSD ?price .
+  FILTER (?price < 3.00)
+}
 \end{lstlisting}
 
 Given a query point $q$, Geo-Store searches the spatial objects in
