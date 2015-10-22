@@ -1,0 +1,8 @@
+version=0.6.0
+typesetter=pdflatex
+steps=texpdf
+root=/home/wangchj/Dropbox/Research/Relational Tree/text/relational_tree.tex
+
+file=/home/wangchj/Dropbox/Research/Relational Tree/text/latex_definitions.tex
+file=/home/wangchj/Dropbox/Research/Relational Tree/text/latex_packages.tex
+file=/home/wangchj/Dropbox/Research/Relational Tree/text/bib.bib

@@ -1,0 +1,10 @@
+PrintTree(char nodeId, int level = 0)
+	//Output current node
+	for(i = 0 to level)
+		Print(' ')
+	Print('nodeId')
+	
+	//Output children
+	children = query("SELECT ID FROM Nodes WHERE Parent=nodeId")
+	foreach(child in children)
+		PrintTree(child, level + 1)

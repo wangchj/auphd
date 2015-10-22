@@ -1,0 +1,66 @@
+%%
+% Define code listing style. This is used in conjunction with caption style defined below.
+%%
+\lstset{
+    basicstyle=\small\ttfamily,
+    numbers=left,
+    %numberstyle=\tiny,
+    %stepnumber=2,
+    %numbersep=8pt,
+    tabsize=2,
+    %extendedchars=true,
+    breaklines=true,
+    keywordstyle=\color[rgb]{0.12, 0.2, 0.40},
+    commentstyle=\color[rgb]{0.4,0.4,0.4},
+    stringstyle=\color[rgb]{0,0.5,0.51},
+    identifierstyle=\color[rgb]{0.8,0.09,0.43},
+	frame=l,         
+    captionpos=t,
+    %keywordstyle=[1]\textbf,
+    %keywordstyle=[2]\textbf,
+    %keywordstyle=[3]\textbf,
+    %keywordstyle=[4]\textbf,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=17pt,
+    %framexleftmargin=17pt,
+    %framexrightmargin=5pt,
+    %framexbottommargin=4pt,
+    %backgroundcolor=\color{lightgray},
+    showstringspaces=false 
+}
+
+%%
+% A listing style for Java code.
+%%
+\lstdefinestyle{java}{
+    identifierstyle=\color{black},
+}
+  
+%%
+% A listing style that is currently not used.
+%%
+\lstdefinestyle{test}{
+    basicstyle=\small\ttfamily,
+    identifierstyle=\color{black},
+    %belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=l,
+    language=sql,
+    numbers=left,
+    xleftmargin=\parindent,
+    %showstringspaces=false,
+    %keywordstyle=\bfseries\color{green!40!black},
+    %commentstyle=\itshape\color{purple!40!black},
+    %identifierstyle=\color{blue},
+    %stringstyle=\color{orange},
+}
+
+\def\inline{\lstinline[basicstyle=\small\ttfamily,identifierstyle=\color{green}]}
+
+%% 
+% Define Style to gray background and white text.
+%%
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\columnwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
