@@ -32,8 +32,9 @@ Relational data model is proposed by Edgar Codd in 1970\cite{DBLP:journals/cacm/
 
 Figure~\ref{fig:relational_database} illustrates a relational database with 2 tables, each 3 attributes. The teachers table has 4 records (tuples) and the Courses table has 6.
 
-\begin{figure}[!h]
+\begin{table}[!h]
 \centering
+\caption{A Relational Database\label{fig:relational_database}}
 \subfigure[Teachers Table]{
 \label{tab:sample_data_a}
   \begin{tabular}{|c|c|c|}
@@ -58,8 +59,7 @@ Figure~\ref{fig:relational_database} illustrates a relational database with 2 ta
   6 & Compilers & 2\\
   \hline
   \end{tabular}}
-\caption{A Relational Database\label{fig:relational_database}}
-\end{figure}
+\end{table}
 
 \subsection{Common Tree Operations}\label{sec_tree_ops}
 
@@ -195,12 +195,11 @@ If the Nodes table contains only a single hierarchy, the operation of finding th
 static Node getOneNode(String query){...}
 
 /** Returns the root node of node n. */
-static Node Root(Node n)
-{
-    if(n.Parent == null)
-        return n;
-    Node parent = getOneNode("SELECT * FROM Nodes WHERE ID='" + n.ID + "'");
-    return Root(parent);
+static Node Root(Node n) {
+  if(n.Parent == null)
+    return n;
+  Node parent = getOneNode("SELECT * FROM Nodes WHERE ID='" + n.ID + "'");
+  return Root(parent);
 }
 
 \end{lstlisting}
@@ -238,24 +237,21 @@ We only show the algorithm for Leaves in Listing~\ref{lst_aj_leaves}.
 
 \begin{lstlisting}[language=java,caption=Leaves, label=lst_aj_leaves, float]
 /** Returns an array of leaf nodes under n. */
-static Node[] Leaves(Node n)
-{
-    ArrayList<Node> result = new ArrayList<Node>();
-    Leaves(n, result);
-    return result.toArray();
+static Node[] Leaves(Node n) {
+  ArrayList<Node> result = new ArrayList<Node>();
+  Leaves(n, result);
+  return result.toArray();
 }
 
 /** Recursive method.*/
-static void Leaves(Node n, List<Node> result)
-{
-    Node[] children = getChildren(n);
-    if(children.length == 0)
-    {
-        result.add(n);
-        return;
-    }
-    for(Node child : children)
-        Leaves(child, result);
+static void Leaves(Node n, List<Node> result) {
+  Node[] children = getChildren(n);
+  if(children.length == 0) {
+    result.add(n);
+    return;
+  }
+  for(Node child : children)
+    Leaves(child, result);
 }
 
 \end{lstlisting}
@@ -265,15 +261,13 @@ In addition, the algorithm for Depth, Path, and Member are very similar to the a
 For the algorithm for Memeber, the iteration can stop once the root node of the subtree $t$ is reached. The time-complexity of the implementation is $O(d_n)$. The algorithm is given in Listing~\ref{lst_aj_member}.
 
 \begin{lstlisting}[language=java,caption=Member, label=lst_aj_member, float]
-static boolean Member(Node n, Node t)
-{
-    while(n != null)
-    {
-        if(n.equals(t))  //n = t
-            return true;
-        n = getParent(n);
-    }
-    return false;
+static boolean Member(Node n, Node t) {
+  while(n != null) {
+    if(n.equals(t))  //n = t
+      return true;
+    n = getParent(n);
+  }
+  return false;
 }
 \end{lstlisting}
 
@@ -284,23 +278,20 @@ static boolean Member(Node n, Node t)
 Listing~\ref{lst_aj_tree} shows the algorithm to get the BST of tree in this relational model.
 
 \begin{lstlisting}[language=java,caption=Tree via Adjacency List, label=lst_aj_tree, float]
-static Node[] Tree(Node n)
-{
-    Queue<Node> q = new LinkedList<Node>();
-    ArrayList<Node> result = new ArrayList<Node>();
-    q.add(n); //enqueue
-    result.add(n);
-    while(!q.isEmpty())
-    {
-        Node head = q.remove();
-        Node[] ch = getChildren(head);
-        for(Node c : ch)
-        {
-            result.add(c);
-            q.add(c);
-        }
+static Node[] Tree(Node n) {
+  Queue<Node> q = new LinkedList<Node>();
+  ArrayList<Node> result = new ArrayList<Node>();
+  q.add(n); //enqueue
+  result.add(n);
+  while(!q.isEmpty()) {
+    Node head = q.remove();
+    Node[] ch = getChildren(head);
+    for(Node c : ch) {
+      result.add(c);
+      q.add(c);
     }
-    return result.toArray();
+  }
+  return result.toArray();
 }
 \end{lstlisting}
 
@@ -331,25 +322,23 @@ Another way of representing hierarchical data in relational database is the nest
 
 \begin{lstlisting}[language=sql,caption={Nodes table for nested set model},label=ns_schema, float]
 CREATE TABLE Nodes (
-    ID CHAR PRIMARY KEY NOT NULL,
-    Parent CHAR NULL,
-    L INT NOT NULL,
-    R INT NOT NULL,
-    FOREIGN KEY (Parent) REFERENCES Nodes (ID)
+  ID CHAR PRIMARY KEY NOT NULL,
+  Parent CHAR NULL,
+  L INT NOT NULL,
+  R INT NOT NULL,
+  FOREIGN KEY (Parent) REFERENCES Nodes (ID)
 )
 \end{lstlisting}	
 
 In this model, there are, for each node, two additional fields: $L$ and $R$. These two fields stand for left and right. These two values provides an ordering of nodes in a tree. Algorithm for assigning $L$ and $R$ value for nodes is shown in Listing~\ref{ns_assignlr}.
 
 \begin{lstlisting}[language=java,caption={Algorithm for Left-Right value assignment for nested set model},label=ns_assignlr, float]
-int AssignLR(Node node)
-{
+int AssignLR(Node node) {
     return AssignLR(node, 1);
 }
 
 /** Recursively assign LR for each node */
-int AssignLR(Node node, int count)
-{
+int AssignLR(Node node, int count) {
 	node.L = count;
 	Node[] children = getChildren(node);
 	for(Node child : children)
@@ -442,8 +431,7 @@ Though both produce similar analytical time-complexity, there are differences be
 Member match exactly the definition of Property~\ref{p_ns_desc}. Listing~\ref{ns_member} shows a trivial code for this operation.
 
 \begin{lstlisting}[language=java,caption={Member Operation},label=ns_member, float]
-static boolean Member(Node n, Node t)
-{
+static boolean Member(Node n, Node t) {
     return (t.L < n.L) && (t.R > n.R);
 }
 \end{lstlisting}
@@ -477,8 +465,9 @@ SELECT * FROM Nested_Set WHERE Left > 1 AND Right < 20 ORDER BY left ASC
 
 To reconstruct the hierarchical structure from the flat list returned from the query above, we look at the result of the query (of the tree in Figure~\ref{ns-tree}) in the Table~\ref{table:ns_tree} below.
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Query result of Tree operation\label{table:ns_tree}}
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf ID} & {\bf Left} & {\bf Right} & {\bf Parent} \\ \hline\hline
@@ -493,32 +482,26 @@ D & 14 & 19	& A \\ \hline
 I & 15 & 16	& D \\ \hline
 J & 17 & 18	& D \\ \hline
 \end{tabular}
-\caption{Query result of Tree operation\label{table:ns_tree}}
 \end{table}
 
 There are two ways to reconstruct the tree, since there are redundant information in the result table to reconstruct the tree. The first way is to only use the `Parent' column. The second way is to use only the `Left' and `Right' columns (not needing the `Parent' column). Listing~\ref{ns_tree_const1} shows the algorithm for the first approach.
 
 \begin{lstlisting}[language=java,caption={Tree reconstruction using Parent},label=ns_tree_const1, float]
-Node ReconstructTree(List<Record> records)
-{
-    Node root, current = null;
-    for(Record record : records)
-    {
-        if(current == null)
-        {
-            current = MakeNode(record);
-            root = current;
-        }
-        else
-        {
-            while(current.ID != record["Parent"])
-                current = current.Parent;
-
-            Node node = MakeNode(record);
-            current.Children.Add(node);
-            current = node;
-        }
+Node ReconstructTree(List<Record> records) {
+  Node root, current = null;
+  for(Record record : records) {
+    if(current == null) {
+      current = MakeNode(record);
+      root = current;
     }
+    else {
+      while(current.ID != record["Parent"])
+        current = current.Parent;
+      Node node = MakeNode(record);
+      current.Children.Add(node);
+      current = node;
+    }
+  }
 	return root;
 }
 \end{lstlisting}
@@ -527,27 +510,22 @@ Listing~\ref{ns_tree_const2} shows the algorithm for the second approach.
 
 \begin{lstlisting}[language=java,caption={Tree reconstruction using Left and Right value},label=ns_tree_const2, float]
 //Returns the root node as the tree
-Node ReconstructTree(List<Record> records)
-{
-    Node root, current = null;
-    for(Record record : records)
-    {
-        if(current == null) //This should only be run once
-        {
-            current = MakeNode(record);
-            root = current;
-        }        
-        else
-		{
-            while(!(current.Left < record["Left"] and current.Right > record["Right"]))
-                current = current.Parent;
-                
-            Node node = MakeNode(record);
-            current.Children.Add(node);
-            current = node;
-        }
+Node ReconstructTree(List<Record> records) {
+  Node root, current = null;
+  for(Record record : records) {
+    if(current == null) { //This should only be run once
+      current = MakeNode(record);
+      root = current;
+    }        
+    else {
+      while(!(current.Left < record["Left"] and current.Right > record["Right"]))
+          current = current.Parent;          
+      Node node = MakeNode(record);
+      current.Children.Add(node);
+      current = node;
     }
-    return root;
+  }
+  return root;
 }
 \end{lstlisting}	
 
@@ -557,12 +535,12 @@ The tree structure can be easily outputted by a program after the hierarchy has 
 
 This section shows an algorithm to print the ID of the nodes with increasing indention to show the hierarchy of the tree.
 
-\begin{lstlisting}[caption={Tree reconstruction using Left and Right value},label=ns_print_tree, float]
-void PrintTree(List<Record> records)
+\begin{lstlisting}[language=java,caption={Tree reconstruction using Left and Right value},label=ns_print_tree, float]
+void PrintTree(List<Record> records) {
 	//Make new stack to hold right values; 
 	//length = 0
 	Stack stack;
-	foreach(Record record in records)
+	foreach(Record record in records) {
 		while(stack.top < record["right"] and !stack.isEmpty)
 			stack.pop()
 		//Print indentation
@@ -571,6 +549,8 @@ void PrintTree(List<Record> records)
 		//Print current record
 		Print(Record.ID)
 		stack.push(record["right"])
+  }
+}
 \end{lstlisting}
 
 \section{Evaluation}
@@ -585,22 +565,23 @@ This section is organized as follows. Section~\ref{sec-server-config} and sectio
 
 Table~\ref{table:tbl_server_config} shows the software and hardware configuration of the server machine.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-CPU & Intel Processor 64-bit \\ \hline
-Memory & 4 GB \\ \hline
-Operating System & Ubuntu 13.10 \\ \hline
-Database System & MySQL 5.5 Community Edition \\ \hline 
-\end{tabular}
-\caption{Dataset size\label{table:tbl_server_config}}
+\begin{table}[!h]
+  \centering
+  \caption{Dataset size\label{table:tbl_server_config}}
+  \begin{tabular}{|l|l|}
+    \hline
+    CPU & Intel Processor 64-bit \\ \hline
+    Memory & 4 GB \\ \hline
+    Operating System & Ubuntu 13.10 \\ \hline
+    Database System & MySQL 5.5 Community Edition \\ \hline 
+  \end{tabular}
 \end{table}
 
 In addition, when running the database system, the following settings are made:
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Database Server Non-default Settings\label{table:tbl_server_settings}}
 \begin{tabular}{|l|l|l|}
 \hline
 Variable & Set Value & Default Value \\ \hline
@@ -608,7 +589,6 @@ max\_sp\_recursion\_depth & 100 & 0 \\ \hline
 maximum\_stack memory & 100 & 100 \\ \hline
 some other memory & 100 & 100 \\ \hline
 \end{tabular}
-\caption{Database Server Non-default Settings\label{table:tbl_server_settings}}
 \end{table}
 
 Note: briefly describe the reason for above settings.
@@ -617,8 +597,9 @@ Note: briefly describe the reason for above settings.
 
 The client machine is responsible for running the experiment code, which is written in Java and connected to the database using MySQL JDBD Connector\footnote{http://www.oracle.com/technetwork/java/javase/jdbc/index.html}. Table~\ref{tbl-client-config} lists configurations of the client environment.
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Dataset size\label{tbl-client-config}}
 \begin{tabular}{|l|l|}
 \hline
 CPU & Intel Processor 64-bit \\ \hline
@@ -627,7 +608,6 @@ Operating System & Ubuntu 13.10 Desktop \\ \hline
 Programming Language & Java 7 (OpenJDK 7) \\ \hline
 Database Connector   & JDBC mysql-connector-java-5.1.29 \\ \hline
 \end{tabular}
-\caption{Dataset size\label{tbl-client-config}}
 \end{table}
 
 At early stages of coding the experiments, the author repeatedly getting Out Of Memory Error from the Java Virtual Machine. The code for the experiments have been rewritten several times to reduce memory consumption. The error can also be mitigated by expanding the allocated memory to the program. The following are the command sets the minimum and maximum heap memory allocated to the experiment to 8 and 9 gigabytes.
@@ -640,8 +620,10 @@ java -cp lib/mysql-connector-java-5.1.29-bin.jar:. -Xms8g -Xmx9g Experiment
 
 The experimental datasets are synthetically generated relational hierarchies, each containing the fields ID, Parent, L and R as described for the Nodes table in Listing~\ref{ns_schema}. In addition, each record (an entry in data table) also contains additional 90 ASCII characters, divided into two fields (45 characters each), to simulate data payload in typical database record. However, these additional data is currently not being used in experiments, due to the limitation of amount of memory in machines that run the experiments. The structure of the experimental data shown in Table~\ref{tb_rel_exp_data_format}.
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Experimental data relational format}
+\label{tb_rel_exp_data_format}
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Null} & \textbf{Key} & \textbf{Default} & \textbf{Extra}  \\ \hline
@@ -652,8 +634,6 @@ r              & int(11)       & NO            & MUL          & NULL            
 data1          & varchar(45)   & NO            &              & NULL             &                 \\ \hline
 data2          & varchar(45)   & NO            &              & NULL             &                 \\ \hline
 \end{tabular}
-\caption{Experimental data relational format}
-\label{tb_rel_exp_data_format}
 \end{table}
 
 The datasets are created by our data generation SQL script (see appendix) and stored on in the database on the server. In addition to being a full tree\footnote{http://en.wikipedia.org/wiki/Binary\_tree\#Types\_of\_binary\_trees}, each dataset is characterized by the following properties:
@@ -667,8 +647,10 @@ Each of the properties ranges from 2 to 10, with the exception that higher-order
 
 \newcommand*\rot{\rotatebox{90}}
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Test data size with respect to Order and Height}
+\label{tbl:reltree_data_size}
 \begin{tabular}{lc|r|r|r|r|r|r|r|r|r|}
 \cline{3-11}
  & \multicolumn{1}{l}{} & \multicolumn{9}{|c|}{\textbf{Height}} \\ \cline{3-11} 
@@ -683,16 +665,16 @@ Each of the properties ranges from 2 to 10, with the exception that higher-order
 \multicolumn{1}{|l}{\textbf{}} & \multicolumn{1}{|c|}{\textbf{9}} & 10 & 91 & 820 & 7,381 & 66,430 & 597,871 & 5,380,840 & 48,427,561 & 435,848,050 \\ \cline{2-11} 
 \multicolumn{1}{|l}{\textbf{}} & \multicolumn{1}{|c|}{\textbf{10}} & 11 & 111 & 1,111 & 11,111 & 111,111 & 1,111,111 & 11,111,111 & 111,111,111 & 1,111,111,111 \\ \hline
 \end{tabular}
-\caption{Test data size with respect to Order and Height}
-\label{tbl:reltree_data_size}
 \end{table}
 
 With the server configuration described earlier in this section, an estimate of the amount of time to generate the data sets is shown in Table~\ref{tb_rel_data_gentime_est}.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
-\begin{table}[h]
+\begin{table}[!h]
 \centering
+\caption{Experimental data generation time estimate}
+\label{tb_rel_data_gentime_est}
 \begin{tabular}{cc|c|c|c|c|c|c|c|c|c|}
 \cline{3-11}
                                                      &                                   & \multicolumn{9}{|c|}{\textbf{Height}}                                                                               \\ \cline{3-11} 
@@ -707,8 +689,6 @@ With the server configuration described earlier in this section, an estimate of 
 \multicolumn{1}{|c}{\textbf{}}                       & \multicolumn{1}{|c|}{\textbf{9}}  & 670 ms     & 6.07 sec   & 54.67 sec  & 8.20 min   & 1.23 hr    & 11.07 hr   & 4.15 days  & 37.37 days & 336.30 days \\ \cline{2-11} 
 \multicolumn{1}{|c}{\textbf{}}                       & \multicolumn{1}{|c|}{\textbf{10}} & 730 ms     & 7.4 sec    & 1.23 min   & 12.35 min  & 2.06 hr    & 20.58 hr   & 8.57 days  & 85.73 days & 857.34 days \\ \hline
 \end{tabular}
-\caption{Experimental data generation time estimate}
-\label{tb_rel_data_gentime_est}
 \end{table}
 
 
