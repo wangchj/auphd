@@ -1,0 +1,146 @@
+
+The SPARQL query language is standardized by the World Wide Web
+Consortium (W3C) for querying RDF data. Evaluation of SPARQL
+queries is based on pattern matching on the target RDF graph. A
+pattern may contain variables that are bound to a URI or a
+literal. In addition, the SPARQL query language provides a number
+of built-in FILTER functions, which can be easily extended to
+support spatial operations (or constraints). Because range and $k$
+nearest neighbor queries are the building blocks of location-based
+services, we elaborate on how to evaluate the two important query
+types by utilizing our system in this section.
+
+
+\subsection{Range Queries}
+
+
+Listing~\ref{list5} shows a sample range query which is launched
+to retrieve the latitude and longitude values of all the qualified
+gas stations with the two selection conditions: (1) the location
+is less than 10 miles away from the query point (the mobile user's
+current location), and (2) the gas price is cheaper than \$3.00
+per gallon.
+
+%\newpage
+
+\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
+
+\begin{lstlisting}[caption={The sample range query in Geo-Store (use case 1).},
+                   label={list5},frame=single]
+SELECT ?coordinates
+WHERE { ?point  a           "Gas Station" .
+        ?point  gml:pos     ?coordinates .
+        FILTER  (gstore:range(?point, CURRENT_LOCATION, 10, "mile"))
+        ?point  gstore:gaspriceUSD       ?price .
+        FILTER  (?price < 3.00)
+      }
+\end{lstlisting}
+
+\begin{figure*}[!h]
+\begin{center}
+ \begin{tabular}{cc}
+ \psfig{figure=geo-store-journal/image/hilbert.eps,height=2.0in}  &
+ \psfig{figure=geo-store-journal/image/range_query.eps,height=2.0in}  \\
+ \parbox{2.2in}{\centering (a) Hilbert curve transformation.} &
+ \parbox{2.2in}{\centering (b) Range query $Q_R$.} \\
+ \end{tabular}
+ \caption{Hilbert curve transformation and range query.}
+ \label{fig-hilbert}
+\end{center}
+\end{figure*}
+
+In Geo-Store, each spatial object is annotated with its Hilbert
+value information based on the GeoHilbert representation.
+Figure~\ref{fig-hilbert}(a) illustrates an example of mapping
+spatial objects in a two dimensional space into their Hilbert
+values. In Figure~\ref{fig-hilbert}(a), the entire space is
+divided by the Hilbert curve into 64 grids with their unique
+Hilbert values, and we can acquire the Hilbert values of the
+spatial objects \emph{A}, \emph{B}, and \emph{C}, as 29, 32, and
+7, respectively. Depending on the desired resolution, more
+fine-grained curves can be recursively generated based on the
+Hilbert curve generation algorithm. Figure~\ref{fig-hilbert}(b)
+demonstrates how a range query can be processed in our system by
+taking advantage of the Hilbert values of spatial objects. As
+depicted in Figure~\ref{fig-hilbert}(b), the query point is
+\emph{q} and the query window of the range query $Q_R$,
+highlighted in red, covers the three Hilbert curve segments
+[10-12], [17-18], and [28-31]. After obtaining the above three
+curve segments, our system retrieves all the spatial objects whose
+Hilbert values are embraced by the three curve sections and treats
+the retrieved spatial object set $\mathbb{R}^{\prime}$ as the
+inclusive query result. Subsequently, our system examines all the
+spatial objects in the grids that \emph{partially} overlap with
+the query window (i.e., grids [10-12], [28] and [31]) to check if
+their exact locations (i.e., latitude and longitude values) are
+within the query window by dictionary lookup. Finally, the exact
+query result $\mathbb{R}$ is returned to the user after filtering
+out those objects whose locations are outside the query window in
+the partially overlapping grids.
+
+
+\subsection{$k$ Nearest Neighbor Queries}
+
+In this subsection, we extend our range query solution to evaluate
+$k$ nearest neighbor queries efficiently in Geo-Store.
+Listing~\ref{list6} demonstrates a sample $k$ nearest neighbor
+query which is issued to retrieve the latitude and longitude
+values of the gas stations that are among the $k$ closest gas
+stations to the query point with a listed gas price cheaper than
+\$3.00 per gallon.
+
+
+\lstset{showstringspaces=false} \lstset{basicstyle=\ttfamily\small,escapeinside={`}{`}}
+
+\begin{lstlisting}[caption={The sample $k$ nearest neighbor query in Geo-Store (use case 2).},
+                   label={list6},
+				   frame=single]
+SELECT ?coordinates
+WHERE { ?point  a           "Gas Station" .
+        ?point  gml:pos     ?coordinates .
+        FILTER  (gstore:NN(?point, CURRENT_LOCATION, k))
+        ?point  gstore:gaspriceUSD       ?price .
+        FILTER  (?price < 3.00)
+      }
+\end{lstlisting}
+
+Given a query point $q$, Geo-Store searches the spatial objects in
+both the ascending and descending directions of Hilbert values
+until $k$ spatial objects are found, and then records the result
+set as $\mathbb{S}$. Supposing the object $o$ has the longest
+distance to $q$ in $\mathbb{S}$, $Distance(q, o)$ (the distance
+between $q$ and $o$) is set as the \emph{search upper bound} for
+the subsequent range query. Afterwards, Geo-Store launches a range
+query $Q_{R}$ with $Distance(q, o)$ to decide the query window
+size and then acquires the query result $\mathbb{R}^{\prime}$.
+Next, Geo-Store identifies the top $k$ objects in
+$\mathbb{R}^{\prime}$ based on their respective distances to $q$
+in order to derive the final query result $\mathbb{R}$.
+
+Figure~\ref{fig-NN} demonstrates the evaluation of a $k$ nearest
+neighbor query with Geo-Store. As shown in Figure~\ref{fig-NN}(a),
+based on the query point $q$, Geo-Store first searches for spatial
+objects with Hilbert values $\geq 30$ and $< 30$ in parallel until
+$k$ objects are discovered. Next, assume that the spatial object
+that has the longest distance to $q$ among the above $k$ objects
+is object $B$. Then, a range query $Q_R$ with the distance between
+$q$ and $B$ as the search upper bound is issued; $Q_R$ returns the
+result set $\mathbb{R}^{\prime}$, as depicted in
+Figure~\ref{fig-NN}(b). In this example, set $\mathbb{R}^{\prime}$
+encompasses objects which fall on the five Hilbert curve segments,
+[8-20], [23-24], [27-32], [35-36], and [53-54]. Finally, Geo-Store
+computes the top $k$ objects in $\mathbb{R}^{\prime}$ with the
+shortest distance to $q$ as the exact query result.
+
+\begin{figure*}[!h]
+\begin{center}
+ \begin{tabular}{cc}
+ \psfig{figure=geo-store-journal/image/NN_search.eps,height=2.0in}  &
+ \psfig{figure=geo-store-journal/image/NN.eps,height=2.0in}  \\
+ \parbox{2.3in}{\centering (a) Finding the search upper bound.} &
+ \parbox{2.3in}{\centering (b) The derived range query $Q_{R}$.}
+ \end{tabular}
+ \caption{$k$ nearest neighbor query example.}
+ \label{fig-NN}
+\end{center}
+\end{figure*}

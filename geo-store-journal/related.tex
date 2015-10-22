@@ -1,0 +1,80 @@
+
+Location-based services are any service that takes into account
+the geographic location of an entity and are accessible with
+mobile devices through wireless
+networks~\cite{journals/cacm/JunglasW08}. With the prevalence of
+GPS-enabled mobile devices and the introduction of 4G mobile
+telecommunications services, various commercial LBSs, such as
+location-based dating, location-targeted advertisement, and child
+safety services, appear in our
+lives~\cite{journals/pervasive/BellavistaKH08}. In addition, novel
+LBS applications are able to exploit online Semantic Web sources
+(e.g., LinkedGeoData\footnote{http://linkedgeodata.org}) about
+nearby physical entities of a user to provide personalized
+services~\cite{journals/internet/WoenselCPT11}. Today,
+location-based services are applied in different fields, such as
+emergency response, navigation, product tracking, social networks,
+etc.
+
+%The origin of LBS was the Enhanced 911 (E911) mandate which was
+%issued by the US Federal Communication Commission (FCC) to improve
+%emergency responses to wireless 911 calls by determining a
+%caller's location with prescribed accuracy.
+
+%\footnote{http://www.w3.org/standards/semanticweb/}
+
+The Semantic Web is a group of techniques for machines to
+understand information and exchange knowledge on the World Wide
+Web. The cornerstone of the Semantic Web is a logical data model
+named RDF which employs triples to represent the relationships
+between subjects and objects. In order to efficiently manage RDF
+data, there are numerous systems invented for storing and querying
+triple
+collections~\cite{conf/www/CarrollDDRSW04,conf/vldb/ChongDES05,conf/vldb/AbadiMMH07,
+journals/pvldb/WeissKB08,journals/vldb/NeumannW10}. For improving
+performance and scalability, Abadi et
+al.~\cite{conf/vldb/AbadiMMH07} introduced a solution by
+vertically partitioning the RDF data. Their solution's performance
+can be further improved by utilizing a column-oriented DBMS, which
+is a database designed specially for the vertically partitioned
+case. Weiss et al.~\cite{journals/pvldb/WeissKB08} proposed a
+sextuple-indexing scheme, named Hexastore, which allows for quick
+and scalable general purpose query evaluation for RDF data
+management. Hexastore achieves significant advantages in
+performance compared with previous solutions for managing RDF
+triples. The RDF-3X engine~\cite{journals/vldb/NeumannW10} is an
+implementation of the SPARQL query language~\cite{SPARQL} for RDF
+by pursuing a simplified architecture with streamlined indexing
+and query processing. The design of RDF-3X completely eliminates
+the need for index tuning by exhaustive indexes for all
+permutations of subject-predicate-object triples and their binary
+and unary projections. However, all the aforementioned triple
+stores do not consider the unique features of spatial data when
+they encode and store RDF triples.
+
+%In addition, the query processor is able to leverage fast merge
+%joins for improving query performance.
+
+Recently, Perry et al.~\cite{Perry11} presented an extension to
+SPARQL, named SPARQL-ST, for complex spatiotemporal queries. They
+implemented SPARQL-ST by extending a relational database, which is
+not an effective way of managing RDF triples. The Strabon system
+is an implementation of the data model stRDF and the query
+language stSPARQL~\cite{conf/esws/KoubarakisK10}, which are
+extensions of RDF and SPARQL for managing spatial and temporal
+data. Nevertheless, Strabon is built on top of the RDF store
+Sesame\footnote{http://www.openrdf.org/} which is not as efficient
+as the aforesaid new generation RDF triple
+stores~\cite{KyzirakosKK10}. Brodt et
+al.~\cite{conf/gis/BrodtNM10} proposed a solution to integrate
+spatial query processing into RDF triple stores. However, their
+design cannot efficiently evaluate queries on large-scale spatial
+data sets, which are essential for the state-of-the-art LBSs.
+Furthermore, Parliament~\cite{conf/SSWS09,conf/semweb/KolasS07} is
+a triple store and employs a similar approach
+to~\cite{conf/gis/BrodtNM10} for spatial queries and storage of
+the data. The GeoSPARQL draft standard~\cite{GeoSPARQL} is
+currently being implemented in Parliament.
+
+%Therefore, we need novel techniques to manage spatial RDF data and
+%efficiently enable semantics-enhanced location-based services.

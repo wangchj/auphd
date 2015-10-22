@@ -1,0 +1,55 @@
+
+With the popularity of wireless networks and mobile devices,
+Location-Based Services (LBS) have become indispensable
+applications to mobile users. The global GPS navigation and LBS
+market size has been predicted to grow significantly from \$1.6
+billion in 2009 to \$13.4 billion in 2014 according to IEMR's
+report ``Global GPS Navigation and Location Based Services
+Forecast". In addition, the Web consists of a huge volume of data
+which require the use of human intelligence. The main goal of the
+Semantic Web is to augment the Web with information so that
+computers can understand and exchange Web data. Consequently, it
+will be a trend for LBS providers to employ Semantic Web data
+sources to develop semantics-enabled location-based services.
+
+The Resource Description Framework (RDF) data model is designed
+for interchanging schema-relaxable (or schema-less) data on the
+Semantic Web~\cite{RDF}. RDF models the linking structure of the
+Web as triples of the form $\langle s, p, o \rangle$, where $s$ is
+a subject, $p$ is a predicate, and $o$ is an object. Each triple
+represents the relationship between the subject and the object. A
+collection of triples forms a directed graph, where the edges
+represent predicates between subjects and objects, which are
+represented by the graph nodes. With the increasing amount of RDF
+data on the Web, researchers developed specialized architectures
+for RDF data management named \emph{triple
+stores}~\cite{conf/www/CarrollDDRSW04,conf/vldb/ChongDES05,conf/vldb/AbadiMMH07,
+journals/pvldb/WeissKB08,journals/vldb/NeumannW10}. Generally,
+these solutions employ various indexing, compression, and query
+optimization techniques for scalable and efficient management of
+RDF data.
+
+The Semantic Web is an ideal data source for supporting the
+state-of-the-art location-based services that employ dynamic or
+near real-time information. For example, a mobile user may utilize
+LBS to search for nearby restaurants based on recent reviews on
+the Web. However, to the best of our knowledge, there are limited
+solutions to process spatial queries, the building blocks of most
+LBSs, on triple stores for supporting advanced location-based
+services. Therefore, the goal of the Geo-Store project is to
+develop novel spatial query techniques that are able to
+efficiently evaluate spatial queries on RDF triple stores for
+providing semantics-enabled location-based services. The main
+features of our Geo-Store system are as follows.
+
+\begin{itemize}
+    \item The Geo-Store system employs a novel representation to
+    model spatial features and utilizes a spatial mapping
+    mechanism to preserve spatial locality.\vspace*{-3pt}
+
+    \item The Geo-Store system is able to effectively process both range and $k$ Nearest Neighbor ($k$NN)
+    queries, the building blocks of many LBS applications, on RDF triple stores.\vspace*{-3pt}
+
+    \item Users are able to integrate and operate the Geo-Store system on
+    existing triple stores (e.g., RDF-3X) with limited changes.\vspace*{-3pt}
+\end{itemize}

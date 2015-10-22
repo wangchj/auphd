@@ -1,0 +1,64 @@
+\documentclass[12pt]{report}
+\input{doc_struct/packages}
+\input{doc_struct/definitions}
+\input{doc_struct/latex_config}
+\input{doc_struct/author_committee}
+
+%\title{Index for Relational Hierarchical Structures and A Case Study of Migration from MySQL to MongoDB (Draft)}
+%\title{Hierarchical and Spatial Indexing in Scientific Database}
+\title{Index Structures for Hierarchical, Spatial, and Unstructured Data in Scientific and Dusty Plasma Physics Database}
+
+\begin{document}
+
+\begin{romanpages}      % roman-numbered pages 
+
+\TitlePage 
+
+\begin{abstract}
+This presentation presents the computerized control and data acquisition and management system for the Magnetized Dusty Plasma Experiment (MDPX), which was commissioned in Fall of 2014 at Plasma Physics Laboratory at Auburn University. The purpose of this new device is to study behavior and phenomenons of electrically-charged dust particulates in plasma under high uniform or gradient magnetic field. The control system is a customized interface running LabView software. Hardware devices are interfaced with the control system via National Instrument PXIe-1075 PXI Express chassis. A file-based hierarchy structure is used to store research data obtain from diagnostic hardware during experiments. The hierarchical structure allows the storage of heterogeneous of data formats from various hardware systems. A relational database is used to index and retrieval research data.
+
+Two relational model structures and data retrieval techniques are studied and optimized. Due to the hierarchical structure of the MDPX data, it is the first structure studied. Data in relational model is divided into flat tables and ineffective for representing hierarchical data. We designed an index for hierarchical model using the nested sets technique. We compare the performance of our design using adjacency list, stored procedure, and nested sets methods. Evaluation indicates our approach improves the data retrieval rate for many operations.
+
+The second technique we study is to retrieve best data across multiple attributes from a database based on user search criteria, also know as skyline. Existing techniques of skyline evaluation only considering minimizing attributes and only consider data of two dimensions. In our study, we propose a novel way to evaluate skyline using non-overlapping spatial index. The technique allows user to specify either to minimize or maximizing data attributes of arbitrary data dimensions. The non-overlapping feature of our technique allows it to perform better than best-first-search (BFS) algorithm.
+
+%Computer databases are ubiquitous and play an important role in most software projects. Although database systems has been used for more than five decades, there are still challenges to be solved. This study is composed of three parts. The first part studies hierarchical data in relational database and proposes an index to facilitate query evaluation. The second part details an index and algorithm for evaluating skyline operation in database. Final and the third part explorers the advantages and disadvantages of moving from relational database to semantic web data model using RDF.
+\end{abstract}
+
+%\begin{acknowledgments}
+%Put text of the acknowledgments here.
+%\end{acknowledgments}
+
+\tableofcontents
+\listoffigures
+\listoftables
+%\printnomenclature[0.5in] %used for the List of Abbreviations
+\end{romanpages}        % All done with roman-numbered pages
+
+
+%\normalem       % Make italics the default for \em
+
+\chapter{Efficient Evaluation of Skyline Queries in Wireless Data Broadcast Environments}
+\import{bsky/}{BSky}
+
+\chapter{Computerized Control and Data Acquisition System for MDPX}
+\import{mdpx/}{body}
+
+\chapter{Hierarchical Data in Relational Database Management Systems}
+\import{reltree-paper/text/}{body}
+
+%\chapter{A Case Study of Migration from MySQL to MongoDB}
+%\import{mongodb/}{body}
+
+\chapter{Geo-Store: A Spatially-Aware SPARQL Evaluation Engine}
+\input{geo-store-journal/chapter}
+
+%\input{schedule/text.tex}
+
+%\bibliographystyle{plain}
+%\bibliography{mdpx/ref}
+
+
+\bibliographystyle{plain}
+\bibliography{mdpx/bib/ref,mdpx/bib/cmod,mdpx/bib/mdsplus,mdpx/bib/d3d,mdpx/bib/lhd,mdpx/bib/nstx,mdpx/bib/w7x,mdpx/bib/iter,mdpx/bib/demo,mdpx/bib/epics,bib,mongodb/bib}
+\end{document}
+
