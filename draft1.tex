@@ -6,7 +6,10 @@
 
 %\title{Index for Relational Hierarchical Structures and A Case Study of Migration from MySQL to MongoDB (Draft)}
 %\title{Hierarchical and Spatial Indexing in Scientific Database}
-\title{Index Structures for Hierarchical, Spatial, and Unstructured Data in Scientific and Dusty Plasma Physics Database}
+
+%\title{Index Structures for Hierarchical, Spatial, and Unstructured Data in Scientific and Dusty Plasma Physics Database}
+
+\title{Database Indexing for Skyline Computation, Hierarchical Relational Database, and Spatially-Aware SPARQL Evaluation Engine}
 
 \begin{document}
 
@@ -15,13 +18,13 @@
 \TitlePage 
 
 \begin{abstract}
-This presentation presents the computerized control and data acquisition and management system for the Magnetized Dusty Plasma Experiment (MDPX), which was commissioned in Fall of 2014 at Plasma Physics Laboratory at Auburn University. The purpose of this new device is to study behavior and phenomenons of electrically-charged dust particulates in plasma under high uniform or gradient magnetic field. The control system is a customized interface running LabView software. Hardware devices are interfaced with the control system via National Instrument PXIe-1075 PXI Express chassis. A file-based hierarchy structure is used to store research data obtain from diagnostic hardware during experiments. The hierarchical structure allows the storage of heterogeneous of data formats from various hardware systems. A relational database is used to index and retrieval research data.
+Computer databases are ubiquitous and play an important role in many software projects. The efficiency of these systems are crucial in the applications they support. Data indexing is the key to efficient data retrieval in database systems. This dissertation considers three data application domains and operations in which data indexing can greatly improve the turnaround time of request operations.
 
-Two relational model structures and data retrieval techniques are studied and optimized. Due to the hierarchical structure of the MDPX data, it is the first structure studied. Data in relational model is divided into flat tables and ineffective for representing hierarchical data. We designed an index for hierarchical model using the nested sets technique. We compare the performance of our design using adjacency list, stored procedure, and nested sets methods. Evaluation indicates our approach improves the data retrieval rate for many operations.
+The first is the study of multi-dimensional and multi-criteria skyline computation. Skyline is a subset of data records that are the best in a data set, where best is defined by user criteria and preference. In our technique, we first create an index using the R-Tree structure. We then propose an greedy algorithm that utilizes the R-Tree index to aggressively prune the search space as the index is being traversed. Experimental evaluation shows that our algorithm performs better than previous algorithms.
 
-The second technique we study is to retrieve best data across multiple attributes from a database based on user search criteria, also know as skyline. Existing techniques of skyline evaluation only considering minimizing attributes and only consider data of two dimensions. In our study, we propose a novel way to evaluate skyline using non-overlapping spatial index. The technique allows user to specify either to minimize or maximizing data attributes of arbitrary data dimensions. The non-overlapping feature of our technique allows it to perform better than best-first-search (BFS) algorithm.
+In the second part of this dissertation, we considered efficiency of querying hierarchical data in relational database (hierarchical relational database). Relational database model is known to efficiently store and retrieval data store in flat tables; however, it was not designed for hierarchical data. Due to this limitation, many operations -- such as answering membership on a hierarchical data -- require recursion or iterations. In this study, we propose an index structure based on the nested-sets model. With this index, we can eliminate recursions and allow database engines to perform hierarchical operations with index scans.
 
-%Computer databases are ubiquitous and play an important role in most software projects. Although database systems has been used for more than five decades, there are still challenges to be solved. This study is composed of three parts. The first part studies hierarchical data in relational database and proposes an index to facilitate query evaluation. The second part details an index and algorithm for evaluating skyline operation in database. Final and the third part explorers the advantages and disadvantages of moving from relational database to semantic web data model using RDF.
+In the last part of this dissertation, we considered storing and retrieval of point-based spatial data (POIs) in RDF triple stores. When we first started this study, spatial data management in RDF is still a fairly new area and there were no standard for query spatial data using SPARQL. In this work, we designed an index scheme using the Hilbert Space Filing Curve. We then defined and implemented Range and K-Nearest-Neighbor (kNN) SPARQL query filters.
 \end{abstract}
 
 %\begin{acknowledgments}
