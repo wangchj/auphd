@@ -21,26 +21,11 @@ The Magnetized Dusty Plasma Experiment (MDPX) is a new research facility at Aubu
 \item To sustain highly magnetized dusty plasma for a extended period of time to study the behavior of the system in steady-state.
 \end{enumerate}
 
-More precisely, if the Hall parameter (the ratio of the gyrofrequency to neutral damping frequency) for a dusty plasma is considered as a typical criterion for magnetization, it is found that this ratio will scale as:
-
-\begin{equation}\label{hall_parameter}
-R_{Hall} = \omega_{cd} / \upsilon_{dn} \sim B \upsilon_{tn} / a P > 1
-\end{equation}
-
-Here, $\omega_{cd}$ is the dust cyclotron frequency ($\omega_{cd} = q_d B / m_d$ – where $q_d$ is the dust grain charge, $B$ is magnetic field, and $m_d$ is the dust grain mass and $q_d / m_d$ scale as $a^{-2}$ , where $a$ is the dust grain radius) and $\upsilon_{dn}$ is the dust-neutral damping frequency ($\upsilon_{dn} \sim a^2 n_n v_{tn} m_n / m_d$ ; where $n_n$ is the neutral gas number density, which is proportional to the neutral pressure, $P$, $\upsilon_{tn}$ is the thermal velocity of the neutral gas, and $m_n$ is the mass of the neutral gas atoms; $\upsilon_{dn} \sim a^{-1}$). This shows that a combination of large magnetic fields strength, low operating pressure, and small particle size is needed to operate an experiment in a parameter regime where the charged micropartices can be magnetized. These are among the most important considerations that guided the development of the MDPX proposal and in the design of the device and its supporting diagnostic systems. Equation~\ref{hall_parameter} shows a calculation of the Hall parameter and the dust grain charge over a range of particle diameters for typical experimental parameters. It is shown that there exists a reasonable regime of parameter space over which the microparticles are expected to satisfy the magnetization criteria.
-
 The core of MDPX research facility is the newly designed magnetized dusty plasma device. The design of the research plasma device is a multi-institutional collaboration between Auburn University, University of Iowa, and University of California in San Diego. The preliminary design and mission was described by Thomas, et al. with incorporation of lessons learned from earlier fusion and plasma experiments. The goal of the device is to be able to generate magnetized plasma of uniform magnetic field up to 4 Tesla and non-uniform magnetic fields with gradients of 1 to 2 Tesla per meter with a flexible, removable vacuum chambers that provides substantial probe and optical access to the plasma\cite{PLA:9579370}.
 
-The focus of this paper is the computerized semi-automatic control and data acquisition and management system. The majority of the system is constructed in National Instrument's LabView with interfaces that controls various hardware and diagnostic devices. The control software takes timed series research measurement data from diagnostic devices and video data for processing and storage. Much of the data is stored on disk.
+The focus of this paper is the to outline the computerized control and data management system of the MDPX project. This chapter is organized as follows. Section~\ref{section-related-works} will cover related works, which contains a survey of previous experiment control and data management systems. Of particular interests are EPICS\cite{lecture:johnson_intro_to_epics} and MDSPlus\cite{stillerman1997mdsplus}, which is covered in the second part of the related works section. Section~\ref{section-mdpx-config} describes the machines configuration of MDPX, and major components of the device. Since the focus of this chapter is the control software of the system, this section will be brief. Section~\ref{section-control-system} describes the control and data management software of the system and is deviced into three components: LabVIEW Control software, searchable relational database, and web data access portal. This section contains detailed design of the relational database. Finally, Section~\ref{mdpx-sec-conclusion} concludes this chapter.
 
-In addition to the LabView control software, the system also contains a MySQL database that is used to store device configuration and experiment parameters. The purpose of the database is twofold:
-
-\begin{enumerate}
-\item To catalog experiments.
-\item To be able to quickly perform searches on experiment configuration and parameters. 
-\end{enumerate}
-
-This paper is organized as follows. Section\ref{section-related-works} will cover related plasma and fusion experiments and their control and data acquisition systems. Section~\ref{section-mdpx-config} introduces MDPX and the configuration of the device. Section~\ref{section-control-system} will discuss the LabView control system of MDPX. Section 1.4 will cover the design of the database system. Section 1.5 briefly describe the hardware design of the MDPX plasma device. Section 1.6 concludes the paper.
+%Section\ref{section-related-works} will cover related plasma and fusion experiments and their control and data acquisition systems. Section~\ref{section-mdpx-config} introduces MDPX and the configuration of the device. Section~\ref{section-control-system} will discuss the LabView control system of MDPX. Section 1.4 will cover the design of the database system. Section 1.5 briefly describe the hardware design of the MDPX plasma device. Section 1.6 concludes the paper.
 
 \section{Related Works}\label{section-related-works}
 
@@ -129,14 +114,14 @@ MDSPlus is a hierarchical data management software system developed by the Plasm
 
 Data in MDSPlus is stored hierarchically, where data for sub-components of an experiment are stored in different sub-trees. The reason for this design is to accommodate different experiment configurations and a wide variety of parts and instruments that produce data to be stored. Figure~\ref{tree-example} shows an example of a sub-tree in MDSPlus contains hierarchical data for a magnetics component. In addition to data management, MDSPlus also contain tools for data analysis and visualization.
 
-Despite having a flexible data model, MDSPlus lacks powerful query capabilities. Most modern database systems support powerful query languages (such as SQL) and evaluation of queries. In MDSPlus, to specific data, one must write data traversal routines in IDL.
-
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=4in]{figures/Tree-example.png}
 \caption{MDSPlus magnetic sub-tree\label{tree-example}}
 \end{center}
 \end{figure}
+
+Despite having a flexible data model, MDSPlus lacks powerful query capabilities. Most modern database systems support powerful query languages (such as SQL) and evaluation of queries. In MDSPlus, to specific data, one must write data traversal routines in IDL.
 
 \subsubsection{Experimental Physics and Industrial Control System (EPICS)}\label{sec-epics}
 
@@ -159,7 +144,7 @@ Experimental Physics and Industrial Control System (EPICS)\cite{website:epics} i
 
 An EPICS control system is distributed in nature, which means that communications (read and write) with devices (e.g. power supply, and vacuum gauge) are achieved through standards computer network using UDP and TCP channel access (CA) protocol. Each device is controlled by a local input-output controller (IOC) which acts as a channel access server that publish process variables on a computer network. A process variable is a values of a device for example the current pressure of a vacuum chamber. Any part of the control system can read process variables through IOCs using channel access protocol which was built on top of UDP and TCP protocols. Control programs (also known as client programs) can also modify the states of the system buy modifying process variables. Figure~\ref{epics-arch} shows an high-level view of the EPICS architecture, which consists of control software clients, IOC servers that control the devices and a computer network and channel access protocol that connect the components.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=6.5in]{figures/epics-arch.png}
 \caption{EPICS architecture \label{epics-arch}}
@@ -169,14 +154,14 @@ An EPICS control system is distributed in nature, which means that communication
 In addition, EPICS also consists of a collection of software for data analysis, data visualization, and monitoring. According to EPICS system developer Andrew Johnson, a typical control system can be constructed by piecing together existing software components\cite{lecture:johnson_intro_to_epics}. Figure~\ref{aps-linac} shows example control displays from the APD Linac, and Figure~\ref{css-boy-iter} shows a screen capture of CSS-BOY from ITER.
 
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5.5in]{figures/aps_linac.png}
 \caption{MEDM displays for the APS Linac \label{aps-linac}}
 \end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5.5in]{figures/css-boy-iter.png}
 \caption{CSS-BOY of ITER \label{css-boy-iter}}
@@ -188,14 +173,13 @@ In addition, EPICS also consists of a collection of software for data analysis, 
 
 \section{MDPX Machine Configuration}\label{section-mdpx-config}
 
-
 The primary components of the MDPX device are: superconducting magnet, vacuum vessel and associated vacuum systems, plasma generation system, experimental control and data acquisition system, and plasma diagnostics. This section describes these components.
 
 \subsection{Superconducting Magnet}
 
-The magnet assembly is  an open-bore cryostat with a cylindrical warm bore that is 50 cm diameter and 157 cm axially. The assembly is divided into two parts separated by steel beams (Figure~\ref{coil-layout}(a)). Each of the two parts of the cryostat encloses a pair of two types of superconducting coils. Type 1 is the smaller coil that are located closer to the edge of the cryostat; while type 2 is the larger coil that are located closer to the center of the device. Each half contains one small and one large coil with the total of 4 coils in the entire assembly as shown in Figure~\ref{coil-layout}(b). The cryostat is evacuated and cooled to the temperature of 6.4 Kelvin, at which the coils becomes superconducting. The divided design of the magnet assembly provides a windows to allow diagnostic access to the plasma chamber. The coils and the cryostat were designed by Auburn University, the MIT Fusion Engineering group, and Superconducting Systems, Inc. (SSI) and manufactured by SSI in Billerica, Massachusetts.
+The magnet assembly is an open-bore cryostat with a cylindrical warm bore that is 50 cm diameter and 157 cm axially. The assembly is divided into two parts separated by steel beams (Figure~\ref{coil-layout}(a)). Each of the two parts of the cryostat encloses a pair of two types of superconducting coils. Type 1 is the smaller coil that are located closer to the edge of the cryostat; while type 2 is the larger coil that are located closer to the center of the device. Each half contains one small and one large coil with the total of 4 coils in the entire assembly as shown in Figure~\ref{coil-layout}(b). The cryostat is evacuated and cooled to the temperature of 6.4 Kelvin, at which the coils becomes superconducting. The divided design of the magnet assembly provides a windows to allow diagnostic access to the plasma chamber. The coils and the cryostat were designed by Auburn University, the MIT Fusion Engineering group, and Superconducting Systems, Inc. (SSI) and manufactured by SSI in Billerica, Massachusetts.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=4in]{figures/magnet_assembly.png}
 \caption{(a) Complete magnet assembly which consists cryostat divide into two parts, each containing two superconducting coils. (b) Two types of superconducting coils and their shape\cite{PLA:9579370}.\label{coil-layout}}
@@ -214,14 +198,14 @@ Each face has the open dimension of 12.7 cm (5 in) tall by 12.2 cm (5 in) wide. 
 
 %The octagonal frame is mounted onto a pair of top and bottom flanges that have an outer diameter of 45.7 cm (18”) and a thickness of 2.5 cm (1”). These flanges each have a custom thru-hole port at their center with a 14 cm (5.5”) diameter. This port is designed to interface with 76.2 cm (30”) long extensions that allow the potential plasma volume to extend up to almost 175 cm along the magnet rotational axis. Alternatively, a window could also be mounted on this port to view the interior of the vacuum chamber. The top/bottom flanges also have four QF25 ports equally spaced on a nominal 28.6 cm (11.25”) diameter circle. The octagonal frame has O-ring grooves with an inner diameter of 36.2 cm (14.25”) at the top and bottom surfaces to interface with top and bottom flanges. Several different views of the MDPX vacuum chamber are shown in Figure~\ref{chamber}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5in]{figures/chamber.png}
 \caption{Views of the MDPX vacuum chamber. (a) the octagonal frame of the vacuum chamber prior to adding the top and bottom flanges; (b) side view of the assembled vacuum chamber showing the top and bottom flanges, a window, and a side flange that is adapted to a QF40 nipple -- the top and bottom electrodes used for plasma generation are also visible through the side window; (c) top view of the vacuum chamber showing a circular, top viewport and the adaptors to QF25 feedthroughs\cite{PLA:9579370}.\label{chamber}}
 \end{center}
 \end{figure}
 
-The devices that create a vacuum inside the chamber and deliver plasma gas into the chamber are controlled by the LavView control system, which is covered in Section~\ref{section-control-system}. A vacuum is created using a combination of an Agilent (Varian) Turbo V 81-T turbomolecular pump with an ISO63 inlet backed by an Agilent DS202 two-stage rotary vane pump. After the vacuum is established, a MKS 1179 mass flow controller with 100 standard cubic centimeter per minute (sccm) flow rate is used to deliver argon gas into the chamber. At the present time, only a single type of gas is used to. A mixture of gases is planned in the future.
+The devices that create a vacuum inside the chamber and deliver plasma gas into the chamber are controlled by the LavView control system, which is covered in Section~\ref{section-control-system}. A vacuum is created using an Agilent (Varian) Turbo V 81-T turbomolecular pump with an ISO63 inlet backed by an Agilent DS202 two-stage rotary vane pump. After the vacuum is established, a MKS 1179 mass flow controller with 100 standard cubic centimeter per minute (sccm) flow rate is used to deliver argon gas into the chamber. At the present time, only a single type of gas is used to. A mixture of gases is planned in the future.
 
 %A vacuum is established using a combination of an Agilent (Varian) Turbo V 81-T turbomolecular pump with an ISO63 inlet backed by an Agilent DS202 two-stage rotary vane pump. Because of the large magnetic field, it is necessary to place the pumps some distance away from the vacuum chamber. A combination of flexible and straight sections of ISO63 tubing extends approximately 6.2 m (20 ft.) between the vacuum chamber to the pumping station. With this configuration, a base pressure p ~ 4 mTorr can be maintained in the MDPX vacuum chamber. Remotely controlled pneumatic valves are used to control which of the pumps, the turbopump or roughing pump, is acting upon the chamber. In particular, for experiments that operate with gas pressures above p = 6.7 Pa (50 mTorr), it is preferable to operate the vacuum system using only the roughing pump.
 
@@ -246,53 +230,52 @@ The devices that create a vacuum inside the chamber and deliver plasma gas into 
 
 %The decision to begin experiments using rf and dc generated plasmas using a parallel plate configuration is a legacy that is based upon the experimental configurations that have been extensively tested throughout the three-decade history of laboratory dusty plasma research. %A summary of the expected plasma parameters in the MDPX device for rf generated plasmas is given in table 2. It is anticipated that over the lifetime of the experiment, a number of different plasma generation approaches may be used. In particular, consideration was given to a Q- machine type plasma source 27 because of the ability to produce plasmas with equal ion and electron temperatures – which could potentially have interesting effects on the dust grain charge. Another alternative would be to use an inductive, instead of capacitive, rf generated plasma approach in order to decouple plasma production from the use of biased electrodes to control potential structures in the plasma.
 
-\section{Control Software}\label{section-control-system}
 
-Experiment control and data acquisition are both enabled through the use of hardware and software from the company National Instruments (NI). A Windows-based PC running the NI LabVIEW software is connected to an 18 slot, NI Model PXIe-1075 PXI Express chassis. This provides the hardware interface to the various control and monitoring systems that enable the operation of the experiment as well as allowing measurements, i.e., data acquisition (DAQ) to be performed by the various diagnostic systems. The basic structure of the data system is illustrated in Figure~\ref{mdpx-software-structure}.
+\section{MDPX Control Software}\label{section-control-system}
 
-\begin{figure}[h]
+The software portion of the system is roughly divided into two parts: the control software and data management software. The control software plays an major role in the entire experiment and is responsible for controlling the entire experiment process from controlling and monitoring experiment parameters to data acquisition and data storage. The control software interfaces and controls the data management portion of the system for data storage and archiving.
+
+The data management software plays an subordinate role to the control software. The purpose of the data management software is to take the research data from the control software, store the data on disk, and catalog the data to make it search-able. An overview of the software components of the project is illustrated in Figure~\ref{mdpx-software-structure}.
+
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=6in]{figures/mdpx_software_structure.png}
 \caption{Schematic layout of the experimental control/monitoring and data acquisition system. \label{mdpx-software-structure}}
 \end{center}
 \end{figure}
 
-For this experiment, control and monitoring refers to the various subsystems that are needed to generate a magnetic field and produce a plasma. This includes controlling the various pneumatic valves, mass flow controllers, and the turbo-pump for the vacuum system, controlling the RF and DC power supplies for plasma generation, and controlling the charging current and voltage of the magnet. These systems also monitor the ``state" of the experiment; i.e., pressure in the vacuum chamber, temperature of the magnets, the magnetic field, and records view from various overview cameras. The hardware needed to perform these tasks include a PXI-6229 card that provides 16 analog input (AI) and 4 analog output (AO) channels at 250 kilo-samples/s (kS/s), a PXI-6224 that provides 16 AI channels at 250 kS/s, a PXI-6723 card that provides 32 AO channels at 800 kS/s, and a PXI-6513 card that provides 32 channels of digital input/output (DIO).
+This section describes these two parts of the control system in detail. The control software is described first, then the data management portion of the software system.
 
-Data acquisition refers to the experimental subsystems that record scientific measurements from the experiment. This primarily refers to measurements obtained from the various diagnostic systems described in section 2e. For data acquisition, the experiment uses a NI PXIe- 6363 card with 16 AI and 4 AO channels at 1 mega-sample/s (MS/s), a PXIe-6124 card with 4 simultaneous sample and hold, 4 MS/s AI channels and 2 AO channels, and a USB-6229 with 16 AI and 4 AO channels at 250 kS/s. Additionally, a PXI-8430 card provides 4 channels of RS- 232 communications, a PXI-8252 card provides 3 channels of FireWire (IEEE-1394a) communications, and a PXI-GPIB card provides an interface to GPIB-based instruments (e.g., digital oscilloscopes, current meters, etc.).
 
-Both the control and monitoring systems and the data acquisition systems are monitored using a LabVIEW control program. This program, which was developed by our research team, provides a real-time summary of the operation of the experiment. Figure~\ref{mdpx-labview} shows a snapshot of the front panel of the control program. This shows the concise manner in which LabVIEW can be used to provide an operator of the MDPX experiment an overview of the state of the device.
+\subsection{LabVIEW Control Software}
+The control and data situation software is a custom software running in LabVIEW. Produced by National Instruments, LabVIEW is a programming and development platform specifically designed for engineering and scientific applications. Using this platform allows the research team to quickly design a control and monitoring software using existing packages and features provided by the platform. This control system runs on Windows Platform and is written to provide two functions: experiment control and monitoring, and data acquisition and storage. This section describe these functions and how they are realized.
 
-\begin{figure}[h]
+Experiment control refers to controlling and setting the parameter of various devices and system that is required to produce plasma and run the experiment. These devices include the hardware components described in Section~\ref{section-mdpx-config}, which include pneumatic valves, turbo-pumps for creating the vacuum, current and voltage parameters for generating magnetic fields, and the RF and DC power supplies for plasma generation.
+
+In addition to controlling the experiment, the control system also monitors the state of the experiment to ensure that the experiment is running within a tolerable range of parameters. The state includes the pressure inside the plasma chamber, magnetic fields, and temperature of the magnets. The control software communicates with various subsystem though National Instrument PXIe-1075 PXI Express chassis. Various communication cards are connected to the chassis that provides digital and analog input and output to the devices. The benefit of this control system is that it allows real-time feedback and summary of the experiment. Figure~\ref{mdpx-labview} shows a snapshot of the front panel of the control software.
+
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[width=6in]{figures/mdpx_labview.png}
 \caption{A snapshot of the primary LabVIEW front panel from the control computer.\label{mdpx-labview}}
 \end{center}
 \end{figure}
 
-% Dusty plasma is ubiquitous in space. The rings of Saturn is an example of plasma interacting with ice particulates. Based on the data sent back from the voyager 1 spacecraft, which is the first man-made object to reach the edge of our solar system, the interstellar medium, the matter that surrounds our solar system consists of ionized gas, dust and cosmic rays, which contains the ingredients of dusty plasma. Studies have found that over 99\% of the matter is in the state of plasma with dust being an omnipresent ingredient.
-
-% IC, nuclear fusion??
-
-% The study of dust interactions in a plasma system has implication in formation of stars and formation of planetesimals in early formation of solar systems.
-
-% In addition to dust particulate, another ingredient in the soup of this plasma is magnetic field. In many settings, magnetic fields exist. Saturn generates a magnetic field, so it probably has influence to the pattern in the rings. Without magnetic field, the only forces acting on the the dust particulates and the plasma are the electro-static forces between the particulates. A magnetic field has large influence on the interaction and behavior of the entire system.
+%Experiment control and data acquisition are both enabled through the use of hardware and software from the company National Instruments (NI). A Windows-based PC running the NI LabVIEW software is connected to an 18 slot, NI Model PXIe-1075 PXI Express chassis. This provides the hardware interface to the various control and monitoring systems that enable the operation of the experiment as well as allowing measurements, i.e., data acquisition (DAQ) to be performed by the various diagnostic systems. The basic structure of the data system is illustrated in Figure~\ref{mdpx-software-structure}.
 
 
-% Plasma are often found with dust particulates. When the dust particulates become electrically charged, by the ions, and start interacting with nearby particulates, a dusty or complex plasma is formed. Dusty plasma can be found everywhere in the universe. One example is the ring system of Saturn where plasma interact with ice particulates. Dusty plasma is also found in industrial settings. Dusts are present in plasma during dry etching of integrated circuit (IC) manufacturing process.
+%For this experiment, control and monitoring refers to the various subsystems that are needed to generate a magnetic field and produce a plasma. This includes controlling the various pneumatic valves, mass flow controllers, and the turbo-pump for the vacuum system, controlling the RF and DC power supplies for plasma generation, and controlling the charging current and voltage of the magnet. These systems also monitor the ``state" of the experiment; i.e., pressure in the vacuum chamber, temperature of the magnets, the magnetic field, and records view from various overview cameras. The hardware needed to perform these tasks include a PXI-6229 card that provides 16 analog input (AI) and 4 analog output (AO) channels at 250 kilo-samples/s (kS/s), a PXI-6224 that provides 16 AI channels at 250 kS/s, a PXI-6723 card that provides 32 AO channels at 800 kS/s, and a PXI-6513 card that provides 32 channels of digital input/output (DIO).
 
-%When Lewi Tonks and Irving Langmuire first described plasma as a glowing ionized gas in 1929, t
-%When Lewi Tonks and Irving Langmuire first described plasma in 1929, they reported observing ``globules in a gas discharge that moved very slowly so that their motion could be easily followed by the unaided eye."
+The second function of the control software is to coordinate data acquisition, which is the measurement and acquiring scientific data that is useful for research. Research data is acquired from diagnostic devices and subsystems. Diagnostics incorporated into the experiments are Langmuir probes, emission spectroscopy, laser induced fluorescence (LIF), and high speed cameras. In the same way as previously described, the control software talks with diagnostics though PXI communication cards connected to the PXIe-1075 PXI Express chassis. After the data had been acquired by the control system, it is stored on disk and handed to the data management portion of the system, which is described in the next subsection.
+
+
+%Data acquisition refers to the experimental subsystems that record scientific measurements from the experiment. This primarily refers to measurements obtained from the various diagnostic systems described in section 2e. For data acquisition, the experiment uses a NI PXIe- 6363 card with 16 AI and 4 AO channels at 1 mega-sample/s (MS/s), a PXIe-6124 card with 4 simultaneous sample and hold, 4 MS/s AI channels and 2 AO channels, and a USB-6229 with 16 AI and 4 AO channels at 250 kS/s. Additionally, a PXI-8430 card provides 4 channels of RS- 232 communications, a PXI-8252 card provides 3 channels of FireWire (IEEE-1394a) communications, and a PXI-GPIB card provides an interface to GPIB-based instruments (e.g., digital oscilloscopes, current meters, etc.).
+
+%Both the control and monitoring systems and the data acquisition systems are monitored using a LabVIEW control program. This program, which was developed by our research team, provides a real-time summary of the operation of the experiment. Figure~\ref{mdpx-labview} shows a snapshot of the front panel of the control program. This shows the concise manner in which LabVIEW can be used to provide an operator of the MDPX experiment an overview of the state of the device.
 
 
 
-% In Physics, plasma is the fourth state of matter, after the sates of solids, liquids, and gases, in which the electrons (negatively charged particles) of the atoms have enough energy that they escape the electromagnetic influence of the atomic nucleus and become free flowing. Due to the fact that the electrons are detached from the atoms, the particles in a plasma are ionized, where electrons have negative electric charge and ions have positive electric charge. Because of this, plasma are often called ionized gas\cite{Parker1995-PARPPA}.
-
-% Plasmas are ubiquitous in nature. One of the most obvious example in nature is the Sun, which is a plasma of mostly hydrogen and helium\cite{eddy1979new}. The tail of comets is also composed of plasma. Interstellar medium which surrounds our solar system is also composed of mostly plasma. The reason that plasma is cautious in our universe is because gases becomes easily ionized in space. Studies have found that 99\% of the matter in the universe is the state of plasma\cite{shukla2010introduction}.
-
-% However, it is rare to find isolated plasma. In most environments, dust particulates interact with plasma as seen in the Rings of Saturn. The pattern in the rings are formed from the interaction of dust, plasma, gravity of the planet, and magnetic field of the planet. Dust particulates are also present in plasma used in integrated circuit (IC) fabrication process on silicon wafer.
-
-\section{Database Management System}
+\subsection{Database Management System}
 %This report describes information management system for the Magnetized Dusty Plasma Experiment (MDPX)\cite{0741-3335-54-12-124034,6414662} project at Auburn University.
 
 During an experiment, the control system gathers a bulk amount of data from diagnostics systems. These data are valuable to researcher and therefore need to be managed and stored so that the data can be easily retrieved by researchers, possibly at a much later time. In this section, we describe how data is stored and indexed in MDPX data storage system.
@@ -365,7 +348,13 @@ The second reason is that MySQL is fast, stable, and supports broad range of dat
 
 %\emph{Note}: In addition to the tables shown in Figure 2, the database also contains a set of user defined views that are currently used by the web interface to show data merged from different tables.
 
-The database is divided into 4 categories: catalog, setup, and summarized measurements. Tables in each category is described in Table~\ref{tb_tables_in_catalog}--\ref{tb_tables_in_access} 
+Figure~\ref{fig:schema} shows the database schema of the relation data, which is divided into 4 categories: catalog, setup, and summarized measurements. Tables in each category is described in Table~\ref{tb_tables_in_catalog}--\ref{tb_tables_in_access}. In the remaining of this section, we briefly describe the purpose and structure of these tables. 
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=6in]{schema.pdf}
+\caption{Database schema.\label{fig:schema}}
+\end{figure*}
 
 
 \subsubsection{Catalog}
@@ -439,7 +428,7 @@ RolePermissions & Action that can be performed on the web interface. For example
 
 %To be completed by Auburn University Plasma Science Laboratory Group (Dr. Thomas).
 
-\section{Web Interface}
+\subsection{Web Interface}
 
 The web interface allows users of the system to view and, if permission granted, modify the information stored in the relational database without having to write complex data query sentences. A perfect example of the power of the web UI can be demonstrated via the \emph{catalog}. Due to the hierarchical nature of the Part Categories (where one categories could have subcategories), it is cumbersome to insert or modify a category directly using SQL. For example, if a new part category is to be inserted using raw SQL, the user will first have to write a query sentence to find the identifier of the desired parent category; then, another query sentence to insert the new category, all the while there is room for human copying error.
 
@@ -453,7 +442,7 @@ Using the web interface, the user can easily see the hierarchical structure of t
 
 The web interface is implemented via PHP 5.3 with Yii Framework 1.1. The framework provides agnostic database access; therefore, RDBMS from different vendors can be used as the data store. The RDBMS that are supported include MySQL(what we use), PostgreSQL, SQLite, Microsoft SQLServer.
 
-\subsection{Inserting and Modifying Data}
+\subsubsection{Inserting and Modifying Data}
 
 The interface facilitates entering new data into the database as shown in the Figure~\ref{fig:create_exp_setup}.
 
@@ -469,37 +458,23 @@ The first is that data input form provides selection drop-down menu for data ite
 
 The second is that, the interface provides data validation. If a data item does not match a format or validation rule, the data is rejected and will not be saved to the database. The database also enforces data integrity rules. The interface adds a second layer of data integrity and constraint checks.
 
-\subsection{Data Filtering and Searching}
+\subsubsection{Data Filtering and Searching}
 
 Data filtering is supported in grid views. Figure~\ref{fig:grid_filter} shows the grid view of parts in the system. Users can specify filtering criteria on the columns at the top of the grid view. For string columns, the user can enter the complete or partial search string. For example, to search and researcher with the last name of ``Thomas", the user can enter either ``Thomas" or just ``Thom" as filtering string. For numerical columns, comparison operators ($<$, $>$) can be used in filtering criteria.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=6in]{grid_filter.pdf}
 \caption{Data Filtering.\label{fig:grid_filter}}
 \end{figure}
 
 
-%\onecolumn
-\section{Appendix}
-\subsection{Database Tables}\label{app_db_schema}
+\section{Conclusion}\label{mdpx-sec-conclusion}
+In this chapter, we described a control and data acquisition system for the Magnetized Dusty Plasma Experiment(MDPX) system. As with any non-trivial system, the MDPX control is a tight integration between hardware and software. The control system is written in LabVIEW and is responsibly for controlling experiments and data acquisition. The control software controls hardware devices through NI PXI Express digital and analog input output cards connected to NI PXIe-1075 PXI Express chassis. This configuration allows us to seamlessly integrate the software with hardware.
 
-\begin{figure*}[h]
-\centering
-\includegraphics[width=6in]{schema.pdf}
-\caption{Database schema.\label{fig:schema}}
-\end{figure*}
+In addition to the control software, an relational database for cataloging experiments set up has been described. We choose to use MySQL for this purpose because it is the state-of-the-art database system and supports standard query language. We believe that our approach allows our team to quickly design and implement the system,allows the system to be easily maintained, and the system can be easily extended.
 
-%\begin{figure}[h!]
-%\begin{center}
-%\includegraphics[width=6in]{schema.pdf}
-%\caption{Database schema.\label{fig:schema}}
-%\end{center}
-%\end{figure}
-
-%\twocolumn
-
-\subsection{Database Column Description}
+\section{Database Table Reference}
 
 \begin{table}[h!]
 \centering
