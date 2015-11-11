@@ -29,7 +29,7 @@ The focus of this paper is the to outline the computerized control and data mana
 
 \section{Related Works}\label{section-related-works}
 
-In this section we cover previous related plasma fusion experiments and their control and data acquisition systems. One must note that most fusion experiments are complex systems consists of many components and parts. For example, the ITER~\cite{Rebut199585} system consists of the vacuum vessel component, magnet system, cryostat component, and cooling systems; each of the components could have its own computerized control and safety system. In this section, we will not go into detail of the each component of the system. Instead, we will only summarize the computerized control system and data acquisition and management system of each project.
+In this section we cover previous related plasma fusion experiments and their control and data acquisition systems. One must note that most fusion experiments are complex systems consists of many components and parts. For example, the ITER\cite{Rebut199585} system consists of the vacuum vessel component, magnet system, cryostat component, and cooling systems; each of the components could have its own computerized control and safety system. In this section, we will not go into detail of the each component of the system. Instead, we will only summarize the computerized control system and data acquisition and management system of each project.
 
 In this section, we focus on three components of the control system. The first is the hardware and communication protocol that is used to connect the control system to the fusion experiment device. The second is the software component that is used to control experiments and acquire experimental research data. And the third is the data management software and technique.
 
@@ -248,7 +248,7 @@ This section describes these two parts of the control system in detail. The cont
 
 
 \subsection{LabVIEW Control Software}
-The control and data situation software is a custom software running in LabVIEW. Produced by National Instruments, LabVIEW is a programming and development platform specifically designed for engineering and scientific applications. Using this platform allows the research team to quickly design a control and monitoring software using existing packages and features provided by the platform. This control system runs on Windows Platform and is written to provide two functions: experiment control and monitoring, and data acquisition and storage. This section describe these functions and how they are realized.
+The control and data situation software is a custom software running in LabVIEW\cite{website:labview}. Produced by National Instruments, LabVIEW is a programming and development platform specifically designed for engineering and scientific applications. Using this platform allows the research team to quickly design a control and monitoring software using existing packages and features provided by the platform. This control system runs on Windows Platform and is written to provide two functions: experiment control and monitoring, and data acquisition and storage. This section describe these functions and how they are realized.
 
 Experiment control refers to controlling and setting the parameter of various devices and system that is required to produce plasma and run the experiment. These devices include the hardware components described in Section~\ref{section-mdpx-config}, which include pneumatic valves, turbo-pumps for creating the vacuum, current and voltage parameters for generating magnetic fields, and the RF and DC power supplies for plasma generation.
 
@@ -361,7 +361,7 @@ Figure~\ref{fig:schema} shows the database schema of the relation data, which is
 
 The \emph{catalog} consists of a set of tables that keeps an inventory of parts and materials that we have at our facility and are used in the experiments. Table~\ref{tb_tables_in_catalog} summarizes the purpose of the tables in this group.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{Tables in Catalog}\label{tb_tables_in_catalog}
 \begin{tabular}{l p{12cm}} \hline
@@ -377,11 +377,11 @@ DustTypes       & A catalog of particles used for experiments, e.g. Silica 0.5.\
 
 \subsubsection{Setup}
 
-The \emph{setup} is the group of table shown in the middle section of the schema in Appendix~\ref{app_db_schema} (colored in blue). This group holds the bulk of the searchable metadata of the experiments and contains information of how an experiment is setup -- which machine parts are used, how parts are connected, what are the set-points for instruments, and the grouping of experimental studies.
+The \emph{setup} is the group of tables shown in the middle section of the schema shown in Figure~\ref{tb_tables_in_setup} (grouped in blue box). This group holds the bulk of the searchable metadata of the experiments and contains information of how an experiment is setup -- which machine parts are used, how parts are connected, what are the set-points for instruments, and the grouping of experimental studies.
 
 Table~\ref{tb_tables_in_setup} summarizes the purpose of the tables in this group.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{Tables in Setup}\label{tb_tables_in_setup}
 \begin{tabular}{l p{12cm}} \hline
@@ -407,7 +407,7 @@ The \emph{Measurements} table is the only table in this category. For each run o
 
 The last group are the user management and access tables. This category contains the \emph{Users} table and the tables under the group named \emph{Web UI Permissions}. These tables defines user roles and controls which role has access to and what action can be performed to different part of the database. Currently only the web interface is using this access control mechanism. Description of these tables follows (in Table~\ref{tb_tables_in_access}).
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{Tables in Setup}\label{tb_tables_in_access}
 \begin{tabular}{l p{12cm}} \hline
@@ -434,7 +434,7 @@ The web interface allows users of the system to view and, if permission granted,
 
 Using the web interface, the user can easily see the hierarchical structure of the data as shown in Figure~\ref{fig:partcat}, and to modify a category, just right click on a tree node, and a list of supported actions are shown.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=6in]{partcat.pdf}
 \caption{Tree view of the part categories.\label{fig:partcat}}
@@ -446,7 +446,7 @@ The web interface is implemented via PHP 5.3 with Yii Framework 1.1. The framewo
 
 The interface facilitates entering new data into the database as shown in the Figure~\ref{fig:create_exp_setup}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=6in]{create_experiment_setup.pdf}
 \caption{Data entry form and data validation.\label{fig:create_exp_setup}}
