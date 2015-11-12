@@ -20,16 +20,22 @@
 \begin{abstract}
 Computer databases are ubiquitous and play an important role in many software projects. The efficiency of these systems are crucial in the applications they support. Data indexing is the key to efficient data retrieval in database systems. This dissertation considers three data application domains and operations in which data indexing can greatly improve the turnaround time of request operations.
 
-The first is the study of multi-dimensional and multi-criteria skyline computation. Skyline is a subset of data records that are the best in a data set, where best is defined by user criteria and preference. In our technique, we first create an index using the R-Tree structure. We then propose an greedy algorithm that utilizes the R-Tree index to aggressively prune the search space as the index is being traversed. Experimental evaluation shows that our algorithm performs better than previous algorithms.
+The first is the study of multi-dimensional and multi-criteria skyline computation. Skyline is a subset of data records that are the best in a data set, where best is defined by user criteria and preference. In our technique, we first create an index using the R-Tree structure. We then propose a greedy algorithm that utilizes the R-Tree index to aggressively prune the search space as the index is traversed. Experimental evaluation shows that our algorithm performs better than previous algorithms.
 
 In the second part of this dissertation, we considered efficiency of querying hierarchical data in relational database (hierarchical relational database). Relational database model is known to efficiently store and retrieval data store in flat tables; however, it was not designed for hierarchical data. Due to this limitation, many operations -- such as answering membership on a hierarchical data -- require recursion or iterations. In this study, we propose an index structure based on the nested-sets model. With this index, we can eliminate recursions and allow database engines to perform hierarchical operations with index scans.
 
-In the last part of this dissertation, we considered storing and retrieval of point-based spatial data (POIs) in RDF triple stores. When we first started this study, spatial data management in RDF is still a fairly new area and there were no standard for query spatial data using SPARQL. In this work, we designed an index scheme using the Hilbert Space Filing Curve. We then defined and implemented Range and K-Nearest-Neighbor (kNN) SPARQL query filters.
+In the last part of this dissertation, we considered storage and retrieval of point-based spatial data (POIs) in RDF triple stores. When we first started this study, spatial data management in RDF was still a fairly new research area and there were no standard for query spatial data using SPARQL. In this work, we designed an index scheme using the Hilbert Space-Filing Curve (HSFC). Leveraging the spatial locality of HSFC, we are able to efficiently evaluate spatial queries such as range and k-nearest-range (kNN) queries. In this work, we define range and kNN SPARQL filters. We implemented there filters and showed that our implementation handles spatial queries better than other triple stores.
 \end{abstract}
 
-%\begin{acknowledgments}
-%Put text of the acknowledgments here.
-%\end{acknowledgments}
+\begin{acknowledgments}
+I'd like to thank my advisor, Dr. Wei-Shinn Ku, for the patient guidance and mentorship throughout my graduate studies. This dissertation would not have been possible without his knowledge and insights.
+
+My advisory committee has provided me with much need support guidance. I'd like to thank Dr. James Cross for sharing his knowledge and research experiences; Dr. Edward Thomas, Jr. for providing feedback and helping me revising the dissertation; Dr. Xiao and Dr. Alvin Lim for career advices and words of encouragement to complete my work.
+
+I want to acknowledge my friends and colleagues for their support and helping me solve academic and research problems.
+
+Last but not least, I want to give special my parents and my family for the unwavering support for me to pursue my degree. I would not be able to complete this dissertation without their support.
+\end{acknowledgments}
 
 \tableofcontents
 \listoffigures
@@ -62,6 +68,6 @@ In the last part of this dissertation, we considered storing and retrieval of po
 
 
 \bibliographystyle{plain}
-\bibliography{mdpx/bib/ref,mdpx/bib/cmod,mdpx/bib/mdsplus,mdpx/bib/d3d,mdpx/bib/lhd,mdpx/bib/nstx,mdpx/bib/w7x,mdpx/bib/iter,mdpx/bib/demo,mdpx/bib/epics,bib,mongodb/bib}
+\bibliography{mdpx/bib/ref,mdpx/bib/cmod,mdpx/bib/mdsplus,mdpx/bib/d3d,mdpx/bib/lhd,mdpx/bib/nstx,mdpx/bib/w7x,mdpx/bib/iter,mdpx/bib/demo,mdpx/bib/epics,mdpx/bib/labview,reltree-paper/text/bib,bib,mongodb/bib}
 \end{document}
 
