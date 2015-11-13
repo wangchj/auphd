@@ -209,7 +209,7 @@ static Node Root(Node n) {
 
 In the adjacency list model, these operations are trivial and can be implemented via a short query (Listing~\ref{lst_aj_parent}). The Parent operation (line 6) is trivial because every node contains a foreign key that points to the primary key of the parent node. Since the primary key indicates the exact location of a record in the database, retriving a parent node is $O(1)$ operation.
 
-For the children (line 9) and siblings (line 12) operations, if the `parent' field is indexed using B-Tree\cite{Comer:1979:UB:356770.356776}, then the time-complexity of this query is $O(\log |N|)$, where $|N|$ is the total number of rows in the Nodes table. If the field is indexed using a hash index, the time-complexity for these becomes $O(1)$.
+For the children (line 9) and siblings (line 12) operations, if the `parent' field is indexed using B-Tree\cite{btree}, then the time-complexity of this query is $O(\log |N|)$, where $|N|$ is the total number of rows in the Nodes table. If the field is indexed using a hash index, the time-complexity for these becomes $O(1)$.
 
 \begin{lstlisting}[language=sql,caption={Parent, Children, and Sibling}, label=lst_aj_parent, float]
 --
