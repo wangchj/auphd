@@ -19,7 +19,7 @@ Branch-and-Bound Nearest Neighbor \cite{progressive_skyline} algorithm utilizes 
 %\end{center}
 %\end{figure}
 
-%BBS is an algorithm that surpasses the computation efficiency of the NN algorithm. BBS utilizes the best first search technique to traverse the index tree to prune the unnecessary branches. Unfortunately, both NN and BBS cannot be easily adopted to the broadcast environment due to the linear nature of the broadcast program. Both NN and BBS require backtracking of the index tree to find the best path to prune (which is impermissible in the broadcast environment) or require waiting for the next broadcast cycle (which incurs a long waiting time). The solutions presented in this paper will use the pruning region strategy used in NN. Our algorithms systematically build pruning regions, as presented in the NN algorithm, as the client receives and discovers more data from the broadcast channel.
+%BBS is an algorithm that surpasses the computation efficiency of the NN algorithm. BBS utilizes the best first search technique to traverse the index tree to prune the unnecessary branches. Unfortunately, both NN and BBS cannot be easily adopted to the broadcast environment due to the linear nature of the broadcast program. Both NN and BBS require backtracking of the index tree to find the best path to prune (which is impermissible in the broadcast environment) or require waiting for the next broadcast cycle (which incurs a long waiting time). The solutions presented in this chapter will use the pruning region strategy used in NN. Our algorithms systematically build pruning regions, as presented in the NN algorithm, as the client receives and discovers more data from the broadcast channel.
 
 % SQL Operator
 Extension SQL syntax for skyline was defined by B{\"o}rzs{\"o}nyi et al. in~\cite{conf/icde/BorzsonyiKS01}. The syntax defines an additional SKYLINE clause in SQL that specifies how the skyline operation should be performed. %In the SKYLINE clause, relevant attributes can be listed. For each attribute, the syntax defines three attribute specifiers, MIN, MAX, and DIFF, that tell the operator how each attribute is to be handled. MIN and MAX denote that the values of the attribute should be minimized or maximized; DIFF denotes that the values should be different.
@@ -36,14 +36,14 @@ Distributed index was also proposed in~\cite{journals/tkde/ImielinskiVB97}. This
 
 %\cite{data_on_air} by Imielinski, et al. is an
 %early and influential work of data
-%indexing for broadcast on air. The paper defined two
+%indexing for broadcast on air. The chapter defined two
 %characteristics of wireless broadcast, \em{tuning time} and \em{access latency}. Tuning time
 %defines how long the client has to actively listen on the channel to get all the desired data.
 %Access latency define the time when the client issues the query to the time all the desired
 %data is received. Tuning time is proportional to power usage of mobile clients. The goal is to
 %reduce both tuning time and access latency.
 
-%In addition, the paper also proposed a few air index techniques to reduce client tuning time.
+%In addition, the chapter also proposed a few air index techniques to reduce client tuning time.
 %The first index proposed is $(1, m)$ index, in which the full index is repeated every $1/m$ of
 %the entire broadcast cycle. The index is repeat so that clients that tune into the channel in
 %the middle of the broadcast does not have to wait until the next cycle to get the index and
@@ -52,7 +52,7 @@ Distributed index was also proposed in~\cite{journals/tkde/ImielinskiVB97}. This
 %access latency.
 
 %Data filtering based on data signatures was proposed in~\cite{journals/winet/LeeL99}. During data retrieval, the signature of the desired data is compared with the signature of a data segment prepared by the broadcast server. If the signatures match, then the data is downloaded; otherwise it is ignored.
-Distributed index for spatial data in error-prone air broadcast was introduced in~\cite{journals/vldb/ZhengLLLS09}. Instead of replication, this paper proposes a distributed index in the broadcast cycle with no duplicate indexes. The paper indexes broadcast spatial data using Hilbert values. Each data record contains an index table that includes the data segments that will be pushed onto the channel in the near future. %A drawback of this approach is the loss of spatial precision due to the use of the space filling curve as the index.
+Distributed index for spatial data in error-prone air broadcast was introduced in~\cite{journals/vldb/ZhengLLLS09}. Instead of replication, this paper proposes a distributed index in the broadcast cycle with no duplicate indexes. The proposed solution indexes broadcast spatial data using Hilbert values. Each data record contains an index table that includes the data segments that will be pushed onto the channel in the near future. %A drawback of this approach is the loss of spatial precision due to the use of the space filling curve as the index.
 
 
 %\section{System Model}

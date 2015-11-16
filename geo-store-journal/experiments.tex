@@ -1,19 +1,4 @@
-
-For performance evaluation, we compared our Geo-Store system with
-Brodt's system~\cite{conf/gis/BrodtNM10} and the Strabon
-system~\cite{KyzirakosKK10} by measuring their response time on
-processing two popular location-based spatial query types, range
-and $k$NN. We acquired the locations of points of interest (POI)
-in California from the U.S. Geological
-Survey\footnote{http://cumulus.cr.usgs.gov/}. This real-world data
-set contains one million POIs distributed over the state of
-California with 63 different POI categories, including airport,
-hospital, school, populated place, road junction, etc. Each
-category exhibits a distinct density and distribution. For each
-result in this section, we ran $500$ corresponding queries with
-distinct query points whose locations were randomly generated
-within the state of California. All the experiments were conducted
-on the same Windows machine.
+For performance evaluation, we compared our Geo-Store system with Brodt's system~\cite{conf/gis/BrodtNM10} and the Strabon system~\cite{KyzirakosKK10} by measuring their response time on processing two popular location-based spatial query types, range and $k$NN. We acquired the locations of points of interest (POI) in California from the U.S. Geological Survey\footnote{http://cumulus.cr.usgs.gov/}. This real-world data set contains one million POIs distributed over the state of California with 63 different POI categories, including airport, hospital, school, populated place, road junction, etc. Each category exhibits a distinct density and distribution. For each result in this section, we ran $500$ corresponding queries with distinct query points whose locations were randomly generated within the state of California. All the experiments were conducted on the same Windows machine.
 
 %We measured the end-to-end execution time (response time) by
 %counting from the time of query submission to the time returning
@@ -21,61 +6,17 @@ on the same Windows machine.
 
 \subsection{Efficiency Comparison}
 
-In this subsection, we focus on comparing the efficiency of
-Geo-Store, Brodt's, and Strabon in terms of query response time.
+In this subsection, we focus on comparing the efficiency of Geo-Store, Brodt's, and Strabon in terms of query response time.
 
 \subsubsection{Range query}
 
-We first report our experimental results of range queries. We
-gradually increased the area of the query window to investigate
-its impact on query response time. Here we specify the area of a
-query window by using the percentage of the region of California.
-For example, a query window with the percentage of 0.01\%
-represents an area of around 16 square miles (given the region of
-California is around 160,000 square miles). As shown in
-Figure~\ref{fig-result} (a), with the enlargement of the query
-window, the response time kept increasing for all systems.
-However, our Geo-Store system always outperformed Brodt's and
-Strabon. For instance, with the query window of 0.01\%, Geo-Store
-only required 0.422 seconds on average to execute the range query,
-while Brodt's and Strabon needed 1.916 seconds and 2.792 seconds,
-respectively. The advantage of Geo-Store over the other two
-systems, in terms of efficiency in evaluating range queries, can
-be explained as follows.
+We first report our experimental results of range queries. We gradually increased the area of the query window to investigate its impact on query response time. Here we specify the area of a query window by using the percentage of the region of California. For example, a query window with the percentage of 0.01\% represents an area of around 16 square miles (given the region of California is around 160,000 square miles). As shown in Figure~\ref{fig-result} (a), with the enlargement of the query window, the response time kept increasing for all systems. However, our Geo-Store system always outperformed Brodt's and Strabon. For instance, with the query window of 0.01\%, Geo-Store only required 0.422 seconds on average to execute the range query, while Brodt's and Strabon needed 1.916 seconds and 2.792 seconds, respectively. The advantage of Geo-Store over the other two systems, in terms of efficiency in evaluating range queries, can be explained as follows.
 
-By utilizing the Hilbert curve based transformation, Geo-Store
-manages to maintain a roughly one-to-one mapping between Hilbert
-values and POIs. Therefore, in most cases, the spatial relation
-between two entities can be determined by comparing their
-respective Hilbert values. As a result, if a POI is identified as
-beyond the query window by the examination of its Hilbert value,
-it can be filtered out at an earlier stage, and there will be no
-need to check its exact latitude/longitude information on disk. On
-the contrary, in Brodt's and Strabon (both employ the R-tree
-index), each Minimum Bounding Rectangle (MBR) contains numerous
-POIs (i.e., usually more than half of the fan-out value),
-resulting in a much larger amount of I/Os to retrieve the
-latitude/longitude values on disk in order to decide if a
-particular POI satisfies a spatial selection operation or not.
+By utilizing the Hilbert curve based transformation, Geo-Store manages to maintain a roughly one-to-one mapping between Hilbert values and POIs. Therefore, in most cases, the spatial relation between two entities can be determined by comparing their respective Hilbert values. As a result, if a POI is identified as beyond the query window by the examination of its Hilbert value, it can be filtered out at an earlier stage, and there will be no need to check its exact latitude/longitude information on disk. On the contrary, in Brodt's and Strabon (both employ the R-tree index), each Minimum Bounding Rectangle (MBR) contains numerous POIs (i.e., usually more than half of the fan-out value), resulting in a much larger amount of I/Os to retrieve the latitude/longitude values on disk in order to decide if a particular POI satisfies a spatial selection operation or not.
 
 \subsubsection{$k$ nearest neighbor query}
 
-Next we study the efficiency of all three systems in evaluating
-$k$ nearest neighbor queries. We varied the $k$ value from 1 to
-10. Figure~\ref{fig-result} (b) shows that when we elevated the
-$k$ value, all the systems required a longer response time to
-identify the $k$ closest neighbors. Nevertheless, as demonstrated
-in Figure~\ref{fig-result} (b), the response time needed by
-Geo-Store was significantly reduced, compared to the other two
-systems. For example, with $k$ equal to 3, Geo-Store only required
-0.325 seconds on average, while Brodt's and Strabon needed 0.913
-seconds and 1.642 seconds, respectively. Geo-Store demonstrates a
-much higher efficiency than the other two systems in processing
-$k$ nearest neighbor queries because Hilbert values employed in
-Geo-Store can provide a more precise location estimation of each
-POI than MBRs used in R-trees, which improves query evaluation
-performance.
-
+Next we study the efficiency of all three systems in evaluating $k$ nearest neighbor queries. We varied the $k$ value from 1 to 10. Figure~\ref{fig-result} (b) shows that when we elevated the $k$ value, all the systems required a longer response time to identify the $k$ closest neighbors. Nevertheless, as demonstrated in Figure~\ref{fig-result} (b), the response time needed by Geo-Store was significantly reduced, compared to the other two systems. For example, with $k$ equal to 3, Geo-Store only required 0.325 seconds on average, while Brodt's and Strabon needed 0.913 seconds and 1.642 seconds, respectively. Geo-Store demonstrates a much higher efficiency than the other two systems in processing $k$ nearest neighbor queries because Hilbert values employed in Geo-Store can provide a more precise location estimation of each POI than MBRs used in R-trees, which improves query evaluation performance.
 
 \begin{figure*}[!h]
 \begin{center}
@@ -109,17 +50,4 @@ performance.
 
 \subsection{Integration with Existing Triple Stores}
 
-As discussed in Section~\ref{sec-design}, one of the clear
-advantages that Geo-Store provides over Brodt's solution is that
-no complicated spatial index, such as an R-tree, is needed to be
-maintained in Geo-Store. The indexing mechanism in Geo-Store is
-completely consistent to the six separate indices
-design~\cite{journals/pvldb/WeissKB08}, which is employed in most
-existing triple
-stores~\cite{conf/www/CarrollDDRSW04,conf/vldb/AbadiMMH07,journals/pvldb/WeissKB08,journals/vldb/NeumannW10}
-for RDF query evaluation. On the other hand,
-in~\cite{conf/gis/BrodtNM10}, a separate R-tree is responsible for
-indexing all the spatial IDs while all the IDs, spatial or
-non-spatial, are indexed by a B$^{+}$-tree. Therefore, by using
-our design, current RDF triple stores can be easily extended to
-support location-based services with limited cost on integration.
+As discussed in Section~\ref{sec-design}, one of the clear advantages that Geo-Store provides over Brodt's solution is that no complicated spatial index, such as an R-tree, is needed to be maintained in Geo-Store. The indexing mechanism in Geo-Store is completely consistent to the six separate indices design~\cite{journals/pvldb/WeissKB08}, which is employed in most existing triple stores~\cite{conf/www/CarrollDDRSW04,conf/vldb/AbadiMMH07,journals/pvldb/WeissKB08,journals/vldb/NeumannW10} for RDF query evaluation. On the other hand, in~\cite{conf/gis/BrodtNM10}, a separate R-tree is responsible for indexing all the spatial IDs while all the IDs, spatial or non-spatial, are indexed by a B$^{+}$-tree. Therefore, by using our design, current RDF triple stores can be easily extended to support location-based services with limited cost on integration.
