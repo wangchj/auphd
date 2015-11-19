@@ -18,13 +18,13 @@
 \TitlePage 
 
 \begin{abstract}
-Computer databases are ubiquitous and play an important role in many software projects. The efficiency of these systems are crucial in applications they support. Data indexing is the key to efficient data retrieval in database systems. This dissertation considers three data application domains and operations in which data indexing can greatly improve the turnaround time of request operations.
+Computerized databases are ubiquitous and play an important role in many software projects. The efficiency of these systems are crucial in applications they support. Data indexing is the key to efficient data retrieval in database systems. This dissertation considers three data application domains and operations in which data indexing can greatly improve the turnaround time of request operations.
 
 The first part is the study of multi-dimensional and multi-criteria skyline computation. Skyline is a subset of data records that are the best in a data set, where best is defined by user criteria and preference. In our technique, we first create an index using the R-Tree structure. We then propose a greedy algorithm that utilizes the R-Tree index to aggressively prune the search space as the index is traversed. Experimental evaluation shows that our algorithm performs better than previous algorithms.
 
 In the second part of this dissertation, we consider the efficiency of querying hierarchical data in a relational database (hierarchical relational database). The relational database model is known to efficiently store and retrieve data stored in flat tables; however, it was not designed for hierarchical data. Due to this limitation, many operations -- such as answering membership on a hierarchical data -- require recursion or iterations. In this study, we propose an index structure based on the nested-sets model. With this index, we can eliminate recursions and allow database engines to perform hierarchical operations with index scans.
 
-In the last part of this dissertation, we consider storage and retrieval of point-based spatial data (POIs) in the Geo-Store RDF triple store. When we first started this study, spatial data management in RDF was still a fairly new research area and there were no standard for query spatial data using SPARQL. In this work, we designed an index scheme using the Hilbert Space-Filing Curve (HSFC). Leveraging the spatial locality of HSFC, we are able to efficiently evaluate spatial queries such as range and k-nearest-range (kNN) queries. In this work, we define range and kNN SPARQL filters. We implemented there filters and showed that our implementation handles spatial queries better than other triple stores.
+In the last part of this dissertation, we consider storage and retrieval of point-based spatial data (POIs) in the Geo-Store RDF Triple Store. When we first started this study, spatial data management in RDF was still a fairly new research area and there were no standards for query spatial data using SPARQL. In this work, we designed an index scheme using the Hilbert Space-Filing Curve (HSFC). Leveraging the spatial locality of HSFC, we are able to efficiently evaluate spatial queries such as range and k-nearest-range (kNN) queries. In this work, we define range and kNN SPARQL filters. We implemented these filters and showed that our implementation handles spatial queries better than other triple stores.
 \end{abstract}
 
 \begin{acknowledgments}
@@ -52,28 +52,26 @@ I want to give special thanks to my parents and my family for the unwavering sup
 
 %\normalem       % Make italics the default for \em
 
+\chapter{Introduction}
+\import{introduction/}{intro.tex}
+
 \chapter{Efficient Evaluation of Skyline Queries in Wireless Data Broadcast Environments}
 \import{bsky/}{BSky}
-
-\chapter{Computerized Control and Data Acquisition System for MDPX}
-\import{mdpx/}{body}
 
 \chapter{Hierarchical Data in Relational Database Management Systems}
 \import{reltree-paper/text/}{body}
 
-%\chapter{A Case Study of Migration from MySQL to MongoDB}
-%\import{mongodb/}{body}
-
 \chapter{Geo-Store: A Spatially-Aware SPARQL Evaluation Engine}
 \input{geo-store-journal/chapter}
 
-%\input{schedule/text.tex}
+\chapter{Conclusion and Future Work}
+\input{conclusion/conclusion}
 
-%\bibliographystyle{plain}
-%\bibliography{mdpx/ref}
-
+\appendix
+\chapter{Computerized Control and Data Acquisition System for MDPX}
+\import{mdpx/}{body}
 
 \bibliographystyle{plain}
-\bibliography{mdpx/bib/ref,mdpx/bib/cmod,mdpx/bib/mdsplus,mdpx/bib/d3d,mdpx/bib/lhd,mdpx/bib/nstx,mdpx/bib/w7x,mdpx/bib/iter,mdpx/bib/demo,mdpx/bib/epics,mdpx/bib/labview,reltree-paper/text/bib,bib,mongodb/bib}
+\bibliography{mdpx/bib/ref,mdpx/bib/cmod,mdpx/bib/mdsplus,mdpx/bib/d3d,mdpx/bib/lhd,mdpx/bib/nstx,mdpx/bib/w7x,mdpx/bib/iter,mdpx/bib/demo,mdpx/bib/epics,mdpx/bib/labview,reltree-paper/text/bib,bib}
 \end{document}
 

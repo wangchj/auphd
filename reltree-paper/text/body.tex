@@ -823,19 +823,3 @@ Intuitively, the running time growth rate should grow linearly with respect to t
 \caption{Running time with respect to order model at height = 8.\label{fig-leaves-order2}}
 \end{center}
 \end{figure}
-
-\section{Conclusion}\label{sec_conclusion}
-
-In this chapter, we conducted performance evaluation of three implementations of hierarchy in relational database. The first is the Adjacency List Model, which is realized by storing all nodes of the hierarchy in a single Nodes table, and each node, represented by a record in the table, contains a self-referencing foreign key that references the parent node.
-
-The second is the Nested Sets Model, which is an attempt to improve the performance of data retrieving operations over the Adjacency List Model. This model is an extension of the first in that each node (or record) contain two additional {\em left} and {\em right} fields that defines the subset relationship. Left and right fields are then indexed using B-Tree for fast access. With this extension, one can easily check if a node is in the hierarchy of another node.
-
-The third implementation is the Stored Adjacency List, in which the same algorithm used in Adjacency List Model implemented in MySQL Stored Procedure. This technique is used to verify if stored procedure is a viable way for performance tuning for hierarchy operations.
-
-Performance evaluation were conducted using the operations defined in Section~\ref{sec_tree_ops}. Operations are divided into three performance groups: O(log N), O(N), and O(1). Members of the same group have similar performance characteristic; therefore, one operation from O(log N), and O(N) is chosen for performance evaluation as representative for the group. The evaluation for group O(1) was conducted, but not reported in this chapter, because the run time is negligible and not influenced by input size. The operation to find the root of a node was chosen to represent O(log N) group, and the operation to find all leaf nodes of a node was chosen to represent O(N) group. The performance of the models are measured in running time of the operations, in which the lower the running time the better.
-
-For group O(log N), the evaluation reported in Section~\ref{eval_group1} shows the expected running time performance. For the Adjacency List Model, the growth rate of the algorithm is linear with respect to the height and constant with respect to the width (order) of the hierarchy. The Nested Sets Model is a huge improvement over the first in this evaluation. Based on the evaluation, the running time growth rate is constant for both dimensions. For the stored implementation, the running time is better than both other approaches. However, the project model is slow-growing linear with respect to height, and constant with respect to order.
-
-In Group O(N), the Nested Sets Model still significantly outperformed Adjacency List Model; however the running time of the stored approach is unreasonable high for very small data sets. For the Adjacency List Model, the running time, as expected, have exponential running time growth with respect to the height of the tree. From the evaluation result, the growth rate with respect to width also appears to be exponential; however, our validation does not fit the exponential model, therefore we believe the growth is a steep linear model.
-
-For the Nested Sets model, the growth rate is also exponential. Although the running times are much lower than that of the other approach, the growth is faster. Frankly, we did not expect an exponential growth rate due to the optimizations that has been done. We believe this could be caused by our implementation. As for the time complexity against the width, it is also exponential. This is also unexpected. Again this is due to that the implementation requires table joins, which degrades the performance very quickly as the data size increases.
